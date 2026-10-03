@@ -3,14 +3,14 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import {
-  ChevronLeft,
-  ChevronRight,
   LayoutDashboard,
   ShoppingCart,
   Package,
   Users,
   Settings,
   HelpCircle,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 
 export interface SidebarItem {
@@ -107,14 +107,22 @@ export function Sidebar({
       {/* Brand Header */}
       <div
         className={cn(
-          "relative flex h-16 items-center border-b border-zinc-200/80 dark:border-zinc-800/80",
-          isCollapsed ? "justify-center px-0" : "justify-between px-4"
+          "flex h-16 items-center border-b border-zinc-200/80 transition-all dark:border-zinc-800/80",
+          isCollapsed ? "justify-center px-2" : "justify-between px-4"
         )}
       >
         <div className="flex items-center gap-2.5 overflow-hidden">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-900 text-sm font-bold text-white shadow-xs dark:bg-emerald-500 dark:text-zinc-950">
+          <button
+            type="button"
+            onClick={isCollapsed ? toggleCollapse : undefined}
+            title={isCollapsed ? "Buka Sidebar" : brandName}
+            className={cn(
+              "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-900 text-sm font-bold text-white shadow-xs dark:bg-emerald-500 dark:text-zinc-950",
+              isCollapsed && "cursor-pointer transition-transform hover:scale-105"
+            )}
+          >
             {brandLogo || "F"}
-          </div>
+          </button>
           {!isCollapsed && (
             <span className="truncate text-sm font-bold tracking-tight text-zinc-900 dark:text-white">
               {brandName}
@@ -122,19 +130,17 @@ export function Sidebar({
           )}
         </div>
 
-        {/* Floating Border Collapse Toggle Button */}
-        <button
-          type="button"
-          onClick={toggleCollapse}
-          title={isCollapsed ? "Buka Sidebar" : "Ciutkan Sidebar"}
-          className="absolute top-5 -right-3 z-30 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-500 shadow-xs transition-all hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-        >
-          {isCollapsed ? (
-            <ChevronRight className="h-3.5 w-3.5" />
-          ) : (
-            <ChevronLeft className="h-3.5 w-3.5" />
-          )}
-        </button>
+        {/* In-Header Collapse Toggle Button (When Expanded) */}
+        {!isCollapsed && (
+          <button
+            type="button"
+            onClick={toggleCollapse}
+            title="Ciutkan Sidebar"
+            className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-zinc-200 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:border-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
+          >
+            <PanelLeftClose className="h-4 w-4" />
+          </button>
+        )}
       </div>
 
       {/* Nav List */}
@@ -199,13 +205,34 @@ export function Sidebar({
         ))}
       </div>
 
-      {/* User Footer Profile */}
+      {/* User Footer Profile & Dedicated Toggle Button */}
       <div
         className={cn(
-          "border-t border-zinc-200/80 dark:border-zinc-800/80",
+          "space-y-1.5 border-t border-zinc-200/80 dark:border-zinc-800/80",
           isCollapsed ? "p-2" : "p-3"
         )}
       >
+        {/* Toggle Button */}
+        <button
+          type="button"
+          onClick={toggleCollapse}
+          title={isCollapsed ? "Buka Sidebar" : "Ciutkan Sidebar"}
+          className={cn(
+            "flex cursor-pointer items-center rounded-lg text-xs font-medium text-zinc-500 transition-colors select-none hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100",
+            isCollapsed ? "mx-auto h-10 w-10 justify-center p-0" : "w-full gap-2.5 px-2.5 py-2"
+          )}
+        >
+          {isCollapsed ? (
+            <PanelLeftOpen className="h-4 w-4" />
+          ) : (
+            <>
+              <PanelLeftClose className="h-4 w-4" />
+              <span>Ciutkan Menu</span>
+            </>
+          )}
+        </button>
+
+        {/* User Profile */}
         <div
           className={cn(
             "flex items-center rounded-lg transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900",
