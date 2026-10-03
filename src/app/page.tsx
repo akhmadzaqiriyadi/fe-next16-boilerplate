@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProductCard } from "@/features/products/components/product-card";
 import type { Product } from "@/features/products/types";
+import { useGsapReveal } from "@/hooks/use-gsap-reveal";
 import {
   Zap,
   Layers,
@@ -14,6 +17,7 @@ import {
   Terminal,
   FolderTree,
   Palette,
+  Sparkles,
 } from "lucide-react";
 
 const sampleProduct: Product = {
@@ -27,13 +31,18 @@ const sampleProduct: Product = {
 };
 
 export default function Home() {
+  const containerRef = useGsapReveal<HTMLDivElement>();
+
   return (
-    <div className="min-h-screen bg-radial-[at_50%_0%] from-zinc-100 via-zinc-50 to-white text-zinc-900 dark:from-zinc-900 dark:via-zinc-950 dark:to-black dark:text-zinc-100 antialiased">
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 antialiased"
+    >
       {/* Top Navbar */}
-      <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 bg-white/70 backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/70">
+      <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 bg-white/80 backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#09090b]/80">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-xs">
               <Zap className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -48,9 +57,8 @@ export default function Home() {
                 Design System
               </Button>
             </Link>
-            <Badge variant="success" className="gap-1.5 py-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Turbopack Ready
+            <Badge variant="success" dot className="py-1">
+              GSAP + Turbopack
             </Badge>
             <a
               href="https://github.com/akhmadzaqiriyadi/fe-next16-boilerplate"
@@ -67,27 +75,26 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <main className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
+      <main className="mx-auto max-w-6xl px-6 py-16 sm:py-24 space-y-20">
         <div className="mx-auto max-w-3xl text-center space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-700 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-300">
+          <div className="gsap-fade-up inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700 shadow-xs dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
             <Layers className="h-3.5 w-3.5 text-zinc-500" />
-            Industry Standard 2026 Feature-Driven Architecture
+            Solid Matte Swiss Aesthetic • No AI-Slop • Zero Native HTML
           </div>
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl text-zinc-950 dark:text-white leading-[1.15]">
+          <h1 className="gsap-fade-up text-4xl font-extrabold tracking-tight sm:text-6xl text-zinc-950 dark:text-white leading-[1.15]">
             Next.js 16 + React 19{" "}
-            <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 bg-clip-text text-transparent">
+            <span className="text-emerald-600 dark:text-emerald-400">
               High-Velocity Starter
             </span>
           </h1>
-          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto">
-            Boilerplate produksi modular yang dirancang untuk kecepatan tinggi, keamanan tipe data end-to-end,
-            dan skalabilitas domain enterprise menggunakan <strong className="font-semibold text-zinc-900 dark:text-zinc-100">Bun</strong> runtime.
+          <p className="gsap-fade-up text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto">
+            Arsitektur frontend modular bebas bloat, bebas gradien norak, ditenagai animasi presisi <strong className="font-semibold text-zinc-900 dark:text-zinc-100">GSAP</strong> dan <strong className="font-semibold text-zinc-900 dark:text-zinc-100">Bun</strong> runtime.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <div className="gsap-fade-up flex flex-wrap items-center justify-center gap-3 pt-2">
             <Link href="/design-system">
-              <Button variant="glow" size="lg" className="gap-2 shadow-md">
-                <Palette className="h-4 w-4" /> Living Design System
+              <Button variant="accent" size="lg" className="gap-2 shadow-xs">
+                <Sparkles className="h-4 w-4" /> Living Design System
               </Button>
             </Link>
             <a href="#structure">
@@ -99,8 +106,8 @@ export default function Home() {
         </div>
 
         {/* Feature Cards Grid */}
-        <section className="mt-20 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <Card>
+        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <Card className="gsap-fade-up">
             <CardHeader>
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
                 <FolderTree className="h-5 w-5" />
@@ -112,7 +119,7 @@ export default function Home() {
             </CardHeader>
           </Card>
 
-          <Card>
+          <Card className="gsap-fade-up">
             <CardHeader>
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
                 <Server className="h-5 w-5" />
@@ -124,56 +131,68 @@ export default function Home() {
             </CardHeader>
           </Card>
 
-          <Card>
+          <Card className="gsap-fade-up">
             <CardHeader>
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <CardTitle>Strict Zod Env & Types</CardTitle>
+              <CardTitle>Strict Zod Env & GSAP</CardTitle>
               <CardDescription>
-                Validasi environment variabel saat build-time menggunakan Zod di <code className="font-mono text-xs">src/env.ts</code>.
+                Validasi env compile-time dengan Zod dan micro-animation taktil 60 FPS menggunakan GSAP.
               </CardDescription>
             </CardHeader>
           </Card>
         </section>
 
         {/* Live Feature Demonstration */}
-        <section id="structure" className="mt-20 space-y-8">
-          <div className="border-t border-zinc-200/80 dark:border-zinc-800/80 pt-12">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight">Contoh Modul Fitur (<code className="text-emerald-500 font-mono text-xl">src/features/products</code>)</h2>
-                <p className="text-sm text-zinc-500 mt-1">Komponen UI yang menggunakan domain model & badge reaktif.</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="gap-1 font-mono">
-                  <Terminal className="h-3 w-3" />
-                  bun run dev
-                </Badge>
-              </div>
+        <section id="structure" className="space-y-8 border-t border-zinc-200/80 dark:border-zinc-800/80 pt-12">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Contoh Modul Fitur (<code className="text-emerald-500 font-mono text-xl">src/features/products</code>)</h2>
+              <p className="text-sm text-zinc-500 mt-1">Komponen UI yang menggunakan domain model, solid matte surface, dan badge reaktif.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="gap-1 font-mono">
+                <Terminal className="h-3 w-3" />
+                bun run dev
+              </Badge>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div>
+              <ProductCard product={sampleProduct} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-              <div>
-                <ProductCard product={sampleProduct} />
+            <div className="rounded-2xl border border-zinc-800 bg-[#121215] p-6 text-zinc-200 font-mono text-xs overflow-x-auto shadow-sm">
+              <div className="flex items-center justify-between pb-3 border-b border-zinc-800 text-zinc-400">
+                <span>📂 Project Structure (2026 Standard)</span>
+                <span>Turbopack</span>
               </div>
-
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 text-zinc-200 font-mono text-xs overflow-x-auto shadow-xl">
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-800 text-zinc-400">
-                  <span>📂 Project Structure (2026 Standard)</span>
-                  <span>Turbopack</span>
-                </div>
-                <pre className="mt-4 leading-relaxed">
+              <pre className="mt-4 leading-relaxed">
 {`src/
 ├── app/                  # Routing & Layouts ONLY
 │   ├── (auth)/           # Route Group (Auth)
 │   ├── (dashboard)/      # Route Group (Dashboard)
+│   ├── design-system/    # Living Styleguide
 │   ├── error.tsx         # Global Client Error Boundary
 │   ├── loading.tsx       # Root Suspense Skeleton
 │   ├── not-found.tsx     # 404 Route
 │   ├── layout.tsx        # HTML Root Layout
 │   └── page.tsx          # Home Page Composition
-├── components/ui/        # Reusable UI Primitives (Button, Card, Badge)
+├── components/ui/        # 100% IN-HOUSE ATOMIC PRIMITIVES
+│   ├── button.tsx        # Solid Matte Buttons
+│   ├── input.tsx         # Custom Inputs
+│   ├── select.tsx        # Custom Dropdowns (Zero Native Select)
+│   ├── checkbox.tsx      # Custom Checkboxes (Zero Native Checkbox)
+│   ├── textarea.tsx      # Custom Textareas
+│   ├── table.tsx         # Custom Tables
+│   ├── dialog.tsx        # Pure Accessible Modal
+│   ├── switch.tsx        # Accessible Toggle Pill
+│   ├── badge.tsx         # Status Indicators
+│   └── card.tsx          # Surface Tiers
+├── hooks/
+│   └── use-gsap-reveal.ts # GSAP Stagger Entrance Animations
 ├── env.ts                # Type-Safe Zod Env Validation
 ├── features/             # Modular Domain Logic
 │   └── products/
@@ -185,23 +204,22 @@ export default function Home() {
 │   └── utils.ts          # cn() Tailwind Class Merger
 └── services/
     └── api-client.ts     # Type-Safe Fetch Wrapper`}
-                </pre>
-              </div>
+              </pre>
             </div>
           </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="mt-24 border-t border-zinc-200/80 bg-white dark:border-zinc-800/80 dark:bg-zinc-950 py-8">
+      <footer className="mt-24 border-t border-zinc-200/80 bg-white dark:border-zinc-800/80 dark:bg-[#09090b] py-8">
         <div className="mx-auto flex max-w-6xl flex-col sm:flex-row items-center justify-between px-6 text-xs text-zinc-500 gap-4">
           <p>© 2026 Akhmad Zaqi (Jack) Riyadi. Built with Bun & Next.js 16.</p>
           <div className="flex gap-4">
             <span className="hover:text-zinc-900 dark:hover:text-zinc-300">Clean Architecture</span>
             <span>•</span>
-            <span className="hover:text-zinc-900 dark:hover:text-zinc-300">Zero-Config Turbopack</span>
+            <span className="hover:text-zinc-900 dark:hover:text-zinc-300">GSAP Animations</span>
             <span>•</span>
-            <span className="hover:text-zinc-900 dark:hover:text-zinc-300">React 19 Server Components</span>
+            <span className="hover:text-zinc-900 dark:hover:text-zinc-300">Zero AI Slop</span>
           </div>
         </div>
       </footer>

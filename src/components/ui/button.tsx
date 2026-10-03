@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger" | "glow";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger" | "accent" | "glow";
   size?: "xs" | "sm" | "md" | "lg" | "icon";
   isLoading?: boolean;
 }
@@ -18,7 +18,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       outline: "border border-zinc-200 bg-transparent hover:bg-zinc-100/50 dark:border-zinc-800 dark:hover:bg-zinc-800/50 text-zinc-900 dark:text-zinc-100",
       ghost: "hover:bg-zinc-100 dark:hover:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white",
       danger: "bg-rose-600 text-white hover:bg-rose-700 dark:bg-rose-600 dark:hover:bg-rose-500 shadow-xs",
-      glow: "bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-400 hover:to-teal-400 shadow-lg shadow-emerald-500/25 border border-emerald-400/30",
+      accent: "bg-emerald-500 text-zinc-950 font-semibold hover:bg-emerald-400 dark:bg-emerald-400 dark:text-zinc-950 dark:hover:bg-emerald-300 shadow-xs border border-emerald-400/30",
+      glow: "bg-emerald-500 text-zinc-950 font-semibold hover:bg-emerald-400 dark:bg-emerald-400 dark:text-zinc-950 dark:hover:bg-emerald-300 shadow-xs border border-emerald-400/30",
     };
 
     const sizes = {
