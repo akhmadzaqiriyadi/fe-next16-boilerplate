@@ -13,9 +13,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           rows={rows}
           className={cn(
-            "w-full rounded-md border bg-white p-3.5 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all duration-200 resize-y",
+            "w-full resize-y rounded-md border bg-white p-3.5 text-sm text-zinc-900 transition-all duration-200 placeholder:text-zinc-400",
             "border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-100 dark:placeholder:text-zinc-600",
-            "focus:border-emerald-500/80 focus:outline-none focus:ring-2 focus:ring-emerald-500/20",
+            "focus:border-emerald-500/80 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none",
             "disabled:cursor-not-allowed disabled:opacity-50",
             error && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/20",
             className

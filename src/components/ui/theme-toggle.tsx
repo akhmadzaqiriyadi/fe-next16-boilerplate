@@ -5,13 +5,13 @@ import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 import { Button } from "./button";
 
+const emptySubscribe = () => () => {};
+const isClient = () => true;
+const isServer = () => false;
+
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = React.useSyncExternalStore(emptySubscribe, isClient, isServer);
 
   if (!mounted) {
     return (

@@ -11,13 +11,7 @@ export interface SwitchProps {
   id?: string;
 }
 
-export function Switch({
-  checked,
-  onCheckedChange,
-  disabled = false,
-  className,
-  id,
-}: SwitchProps) {
+export function Switch({ checked, onCheckedChange, disabled = false, className, id }: SwitchProps) {
   return (
     <button
       type="button"
@@ -27,10 +21,10 @@ export function Switch({
       disabled={disabled}
       onClick={() => onCheckedChange(!checked)}
       className={cn(
-        "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-lg border border-transparent p-0.5 transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 disabled:cursor-not-allowed disabled:opacity-50",
+        "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-lg border border-transparent p-0.5 transition-colors duration-200 ease-in-out focus-visible:ring-2 focus-visible:ring-emerald-500/50 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
         checked
-          ? "bg-emerald-500 border-emerald-400/40"
-          : "bg-zinc-200 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700",
+          ? "border-emerald-400/40 bg-emerald-500"
+          : "border-zinc-300 bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-800",
         className
       )}
     >

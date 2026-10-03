@@ -9,16 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { toast } from "sonner";
-import {
-  Mail,
-  Lock,
-  User,
-  Store,
-  ArrowLeft,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-} from "lucide-react";
+import { Mail, Lock, User, Store, ArrowLeft, ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -78,9 +69,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-col antialiased">
+    <div className="flex min-h-screen flex-col bg-zinc-50 text-zinc-900 antialiased dark:bg-[#09090b] dark:text-zinc-100">
       {/* Top Header */}
-      <header className="w-full max-w-6xl mx-auto flex items-center justify-between p-4 sm:p-6">
+      <header className="mx-auto flex w-full max-w-6xl items-center justify-between p-4 sm:p-6">
         <Link href="/login">
           <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
             <ArrowLeft className="h-4 w-4" /> Kembali ke Login
@@ -90,10 +81,10 @@ export default function RegisterPage() {
       </header>
 
       {/* Main Container (Dead Center) */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-8 sm:px-6">
+      <main className="flex flex-1 flex-col items-center justify-center px-4 py-8 sm:px-6">
         <div className="w-full max-w-lg">
-          <div className="mb-8 text-center space-y-2">
-            <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-xs mb-1">
+          <div className="mb-8 space-y-2 text-center">
+            <div className="mb-1 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-900 text-white shadow-xs dark:bg-zinc-100 dark:text-zinc-950">
               <Store className="h-5 w-5" />
             </div>
             <h1 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
@@ -104,130 +95,140 @@ export default function RegisterPage() {
             </p>
           </div>
 
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="text-base">Informasi Bisnis & Akun</CardTitle>
-            <CardDescription>Semua data terenkripsi end-to-end dengan standar keamanan tinggi.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                    Nama Pemilik
-                  </label>
-                  <Input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Budi Santoso"
-                    leftIcon={<User className="h-4 w-4" />}
-                    required
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                    Nama Toko / Usaha
-                  </label>
-                  <Input
-                    value={storeName}
-                    onChange={(e) => setStoreName(e.target.value)}
-                    placeholder="Kopi Nusantara POS"
-                    leftIcon={<Store className="h-4 w-4" />}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                  Alamat Email Bisnis
-                </label>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@kopinusantara.id"
-                  leftIcon={<Mail className="h-4 w-4" />}
-                  required
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                  Kata Sandi
-                </label>
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Minimal 8 karakter..."
-                  leftIcon={<Lock className="h-4 w-4" />}
-                  required
-                />
-                {password && (
-                  <div className="space-y-1.5 pt-1">
-                    <div className="grid grid-cols-4 gap-1 h-1.5">
-                      {[1, 2, 3, 4].map((step) => (
-                        <div
-                          key={step}
-                          className={`rounded-[2px] transition-colors ${
-                            strength >= step ? strengthColors[strength] : "bg-zinc-200 dark:bg-zinc-800"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-[10.5px] font-mono text-zinc-500">
-                      Kekuatan Sandi: <span className="font-semibold">{strengthLabels[strength]}</span>
-                    </p>
+          <Card>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base">Informasi Bisnis & Akun</CardTitle>
+              <CardDescription>
+                Semua data terenkripsi end-to-end dengan standar keamanan tinggi.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                      Nama Pemilik
+                    </label>
+                    <Input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Budi Santoso"
+                      leftIcon={<User className="h-4 w-4" />}
+                      required
+                    />
                   </div>
-                )}
-              </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                      Nama Toko / Usaha
+                    </label>
+                    <Input
+                      value={storeName}
+                      onChange={(e) => setStoreName(e.target.value)}
+                      placeholder="Kopi Nusantara POS"
+                      leftIcon={<Store className="h-4 w-4" />}
+                      required
+                    />
+                  </div>
+                </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                  Konfirmasi Kata Sandi
-                </label>
-                <Input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Ketik ulang kata sandi..."
-                  leftIcon={<ShieldCheck className="h-4 w-4" />}
-                  required
-                />
-              </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                    Alamat Email Bisnis
+                  </label>
+                  <Input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@kopinusantara.id"
+                    leftIcon={<Mail className="h-4 w-4" />}
+                    required
+                  />
+                </div>
 
-              <div className="pt-1">
-                <Checkbox
-                  id="terms"
-                  checked={agreeTerms}
-                  onCheckedChange={setAgreeTerms}
-                  label="Saya menyetujui Syarat Layanan & Kebijakan Privasi Forge"
-                />
-              </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                    Kata Sandi
+                  </label>
+                  <Input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Minimal 8 karakter..."
+                    leftIcon={<Lock className="h-4 w-4" />}
+                    required
+                  />
+                  {password && (
+                    <div className="space-y-1.5 pt-1">
+                      <div className="grid h-1.5 grid-cols-4 gap-1">
+                        {[1, 2, 3, 4].map((step) => (
+                          <div
+                            key={step}
+                            className={`rounded-[2px] transition-colors ${
+                              strength >= step
+                                ? strengthColors[strength]
+                                : "bg-zinc-200 dark:bg-zinc-800"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <p className="font-mono text-[10.5px] text-zinc-500">
+                        Kekuatan Sandi:{" "}
+                        <span className="font-semibold">{strengthLabels[strength]}</span>
+                      </p>
+                    </div>
+                  )}
+                </div>
 
-              <Button type="submit" variant="primary" className="w-full gap-2" isLoading={isLoading}>
-                Daftar & Kirim Kode OTP <ArrowRight className="h-4 w-4" />
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                    Konfirmasi Kata Sandi
+                  </label>
+                  <Input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Ketik ulang kata sandi..."
+                    leftIcon={<ShieldCheck className="h-4 w-4" />}
+                    required
+                  />
+                </div>
 
-        {/* Footer Link to Login */}
-        <p className="text-center text-xs text-zinc-500 mt-6">
-          Sudah memiliki akun?{" "}
-          <Link
-            href="/login"
-            className="font-semibold text-zinc-900 dark:text-white hover:underline"
-          >
-            Masuk Sekarang
-          </Link>
-        </p>
+                <div className="pt-1">
+                  <Checkbox
+                    id="terms"
+                    checked={agreeTerms}
+                    onCheckedChange={setAgreeTerms}
+                    label="Saya menyetujui Syarat Layanan & Kebijakan Privasi Forge"
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="w-full gap-2"
+                  isLoading={isLoading}
+                >
+                  Daftar & Kirim Kode OTP <ArrowRight className="h-4 w-4" />
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+
+          {/* Footer Link to Login */}
+          <p className="mt-6 text-center text-xs text-zinc-500">
+            Sudah memiliki akun?{" "}
+            <Link
+              href="/login"
+              className="font-semibold text-zinc-900 hover:underline dark:text-white"
+            >
+              Masuk Sekarang
+            </Link>
+          </p>
         </div>
       </main>
 
       {/* Bottom Footer */}
-      <footer className="w-full text-center py-4 text-[11px] text-zinc-400 font-mono">
+      <footer className="w-full py-4 text-center font-mono text-[11px] text-zinc-400">
         Forge POS & Enterprise Inventory © 2026. Zero-Dependency Security.
       </footer>
     </div>

@@ -50,7 +50,7 @@ export function Dialog({
       <Backdrop isOpen={isOpen} onClose={onClose} blur="md" opacity="medium" />
 
       {/* Modal Container */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+      <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
           role="dialog"
           aria-modal="true"
@@ -67,7 +67,7 @@ export function Dialog({
             type="button"
             onClick={onClose}
             aria-label="Tutup Dialog"
-            className="absolute right-4 top-4 rounded-md p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+            className="absolute top-4 right-4 cursor-pointer rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
           >
             <X className="h-4 w-4" />
           </button>
@@ -81,7 +81,7 @@ export function Dialog({
                 </h2>
               )}
               {description && (
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
                   {description}
                 </p>
               )}

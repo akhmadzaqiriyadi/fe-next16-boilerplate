@@ -10,12 +10,7 @@ export interface TooltipProps {
   className?: string;
 }
 
-export function Tooltip({
-  content,
-  children,
-  position = "top",
-  className,
-}: TooltipProps) {
+export function Tooltip({ content, children, position = "top", className }: TooltipProps) {
   const [isVisible, setIsVisible] = React.useState(false);
 
   const positionClasses = {
@@ -38,7 +33,7 @@ export function Tooltip({
         <div
           role="tooltip"
           className={cn(
-            "pointer-events-none absolute z-50 whitespace-nowrap rounded-[4px] border border-zinc-800 bg-[#09090b] px-2 py-1 font-mono text-[10.5px] font-medium text-zinc-200 shadow-md animate-in fade-in zoom-in-95",
+            "animate-in fade-in zoom-in-95 pointer-events-none absolute z-50 rounded-[4px] border border-zinc-800 bg-[#09090b] px-2 py-1 font-mono text-[10.5px] font-medium whitespace-nowrap text-zinc-200 shadow-md",
             positionClasses[position],
             className
           )}

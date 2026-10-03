@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Clock, ChevronUp, ChevronDown, X, Check } from "lucide-react";
+import { Clock, X } from "lucide-react";
 
 export interface TimePickerProps {
   value?: string; // format "HH:mm" (24h)
@@ -17,7 +17,6 @@ export interface TimePickerProps {
 export function TimePicker({
   value = "",
   onChange,
-  format = "24h",
   minuteStep = 5,
   placeholder = "Pilih jam (JJ:MM)...",
   disabled = false,
@@ -43,15 +42,17 @@ export function TimePicker({
   const { hours: currentH, minutes: currentM } = parseTime(value);
   const [selectedHour, setSelectedHour] = React.useState(currentH);
   const [selectedMinute, setSelectedMinute] = React.useState(currentM);
+  const [prevValue, setPrevValue] = React.useState(value);
 
   // Sync internal state when external value changes
-  React.useEffect(() => {
+  if (value !== prevValue) {
+    setPrevValue(value);
     if (value) {
       const { hours, minutes } = parseTime(value);
       setSelectedHour(hours);
       setSelectedMinute(minutes);
     }
-  }, [value]);
+  }
 
   // Click outside listener
   React.useEffect(() => {
@@ -79,9 +80,8 @@ export function TimePicker({
 
   // Generate lists
   const hoursList = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
-  const minutesList = Array.from(
-    { length: Math.ceil(60 / minuteStep) },
-    (_, i) => String(i * minuteStep).padStart(2, "0")
+  const minutesList = Array.from({ length: Math.ceil(60 / minuteStep) }, (_, i) =>
+    String(i * minuteStep).padStart(2, "0")
   );
 
   const handleSelectTime = (h: string, m: string) => {
@@ -118,16 +118,21 @@ export function TimePicker({
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         className={cn(
-          "flex h-10 w-full items-center justify-between rounded-md border bg-white px-3.5 text-sm transition-all duration-200 cursor-pointer select-none",
+          "flex h-10 w-full cursor-pointer items-center justify-between rounded-md border bg-white px-3.5 text-sm transition-all duration-200 select-none",
           "border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-100",
-          "focus-visible:border-emerald-500/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20",
+          "focus-visible:border-emerald-500/80 focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:outline-none",
           isOpen && "border-emerald-500/80 ring-2 ring-emerald-500/20",
-          disabled && "cursor-not-allowed opacity-50 bg-zinc-50 dark:bg-zinc-900/30"
+          disabled && "cursor-not-allowed bg-zinc-50 opacity-50 dark:bg-zinc-900/30"
         )}
       >
         <div className="flex items-center gap-2.5 truncate">
-          <Clock className="h-4 w-4 text-zinc-400 shrink-0" />
-          <span className={cn("truncate font-mono text-xs sm:text-sm", !value && "text-zinc-400 dark:text-zinc-500 font-sans")}>
+          <Clock className="h-4 w-4 shrink-0 text-zinc-400" />
+          <span
+            className={cn(
+              "truncate font-mono text-xs sm:text-sm",
+              !value && "font-sans text-zinc-400 dark:text-zinc-500"
+            )}
+          >
             {value ? `${value} WIB` : placeholder}
           </span>
         </div>
@@ -138,7 +143,7 @@ export function TimePicker({
               e.stopPropagation();
               onChange?.("");
             }}
-            className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 p-0.5 rounded-sm"
+            className="rounded-sm p-0.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -147,29 +152,29 @@ export function TimePicker({
 
       {/* Floating Popover Time Picker (Zero Native HTML) */}
       {isOpen && (
-        <div className="absolute z-50 mt-1.5 w-[280px] rounded-lg border border-zinc-200/80 bg-white p-3.5 shadow-xl backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl animate-in fade-in zoom-in-95">
+        <div className="animate-in fade-in zoom-in-95 absolute z-50 mt-1.5 w-[280px] rounded-lg border border-zinc-200/80 bg-white p-3.5 shadow-xl backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl">
           {/* Digital Clock Display Header */}
-          <div className="flex items-center justify-center gap-2 pb-3 mb-3 border-b border-zinc-200/80 dark:border-zinc-800/80">
-            <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/80 px-3 py-1.5 text-xl font-bold font-mono tracking-wider text-zinc-900 dark:text-white shadow-xs">
+          <div className="mb-3 flex items-center justify-center gap-2 border-b border-zinc-200/80 pb-3 dark:border-zinc-800/80">
+            <div className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1.5 font-mono text-xl font-bold tracking-wider text-zinc-900 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-white">
               {selectedHour}
             </div>
-            <span className="text-xl font-bold text-zinc-400 animate-pulse">:</span>
-            <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/80 px-3 py-1.5 text-xl font-bold font-mono tracking-wider text-zinc-900 dark:text-white shadow-xs">
+            <span className="animate-pulse text-xl font-bold text-zinc-400">:</span>
+            <div className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1.5 font-mono text-xl font-bold tracking-wider text-zinc-900 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-white">
               {selectedMinute}
             </div>
-            <span className="text-xs font-mono text-zinc-400 font-semibold ml-1">WIB</span>
+            <span className="ml-1 font-mono text-xs font-semibold text-zinc-400">WIB</span>
           </div>
 
           {/* Time Picker Columns (Hours & Minutes) */}
-          <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="mb-3 grid grid-cols-2 gap-3">
             {/* Hours Column */}
             <div>
-              <p className="text-[10.5px] font-mono uppercase text-zinc-400 dark:text-zinc-500 font-semibold mb-1.5 text-center">
+              <p className="mb-1.5 text-center font-mono text-[10.5px] font-semibold text-zinc-400 uppercase dark:text-zinc-500">
                 Jam (00-23)
               </p>
               <div
                 ref={hoursListRef}
-                className="h-44 overflow-y-auto space-y-1 rounded-md border border-zinc-200/70 dark:border-zinc-800/70 p-1 bg-zinc-50/50 dark:bg-zinc-900/30 scrollbar-thin"
+                className="h-44 scrollbar-thin space-y-1 overflow-y-auto rounded-md border border-zinc-200/70 bg-zinc-50/50 p-1 dark:border-zinc-800/70 dark:bg-zinc-900/30"
               >
                 {hoursList.map((h) => {
                   const isSelected = h === selectedHour;
@@ -181,7 +186,7 @@ export function TimePicker({
                       className={cn(
                         "flex h-7 w-full items-center justify-center rounded-[4px] font-mono text-xs font-medium transition-colors select-none",
                         isSelected
-                          ? "bg-zinc-900 text-white dark:bg-emerald-500 dark:text-zinc-950 font-bold shadow-xs"
+                          ? "bg-zinc-900 font-bold text-white shadow-xs dark:bg-emerald-500 dark:text-zinc-950"
                           : "text-zinc-700 hover:bg-zinc-200/60 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
                       )}
                     >
@@ -194,12 +199,12 @@ export function TimePicker({
 
             {/* Minutes Column */}
             <div>
-              <p className="text-[10.5px] font-mono uppercase text-zinc-400 dark:text-zinc-500 font-semibold mb-1.5 text-center">
+              <p className="mb-1.5 text-center font-mono text-[10.5px] font-semibold text-zinc-400 uppercase dark:text-zinc-500">
                 Menit (:00-:55)
               </p>
               <div
                 ref={minutesListRef}
-                className="h-44 overflow-y-auto space-y-1 rounded-md border border-zinc-200/70 dark:border-zinc-800/70 p-1 bg-zinc-50/50 dark:bg-zinc-900/30 scrollbar-thin"
+                className="h-44 scrollbar-thin space-y-1 overflow-y-auto rounded-md border border-zinc-200/70 bg-zinc-50/50 p-1 dark:border-zinc-800/70 dark:bg-zinc-900/30"
               >
                 {minutesList.map((m) => {
                   const isSelected = m === selectedMinute;
@@ -211,7 +216,7 @@ export function TimePicker({
                       className={cn(
                         "flex h-7 w-full items-center justify-center rounded-[4px] font-mono text-xs font-medium transition-colors select-none",
                         isSelected
-                          ? "bg-zinc-900 text-white dark:bg-emerald-500 dark:text-zinc-950 font-bold shadow-xs"
+                          ? "bg-zinc-900 font-bold text-white shadow-xs dark:bg-emerald-500 dark:text-zinc-950"
                           : "text-zinc-700 hover:bg-zinc-200/60 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
                       )}
                     >
@@ -224,25 +229,25 @@ export function TimePicker({
           </div>
 
           {/* Quick Preset Buttons */}
-          <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800/60">
-            <div className="flex flex-wrap gap-1 mb-2.5">
+          <div className="border-t border-zinc-100 pt-2 dark:border-zinc-800/60">
+            <div className="mb-2.5 flex flex-wrap gap-1">
               {["09:00", "12:00", "15:00", "18:00", "21:00"].map((t) => (
                 <button
                   key={t}
                   type="button"
                   onClick={() => handleQuickPreset(t)}
-                  className="px-1.5 py-0.5 rounded-[4px] border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-[10.5px] font-mono text-zinc-600 dark:text-zinc-300 transition-colors"
+                  className="rounded-[4px] border border-zinc-200 px-1.5 py-0.5 font-mono text-[10.5px] text-zinc-600 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
                 >
                   {t}
                 </button>
               ))}
             </div>
 
-            <div className="flex items-center justify-between text-xs pt-1">
+            <div className="flex items-center justify-between pt-1 text-xs">
               <button
                 type="button"
                 onClick={handleNow}
-                className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
+                className="font-medium text-emerald-600 hover:underline dark:text-emerald-400"
               >
                 Jam Sekarang
               </button>
@@ -252,7 +257,7 @@ export function TimePicker({
                   onChange?.(`${selectedHour}:${selectedMinute}`);
                   setIsOpen(false);
                 }}
-                className="px-2.5 py-1 rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 text-xs font-semibold hover:opacity-90 shadow-xs"
+                className="rounded-md bg-zinc-900 px-2.5 py-1 text-xs font-semibold text-white shadow-xs hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-950"
               >
                 Pilih
               </button>

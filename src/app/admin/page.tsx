@@ -26,23 +26,20 @@ import {
   TrendingUp,
   Package,
   ShoppingCart,
-  Users,
   Plus,
   Download,
-  Filter,
   ArrowUpRight,
   AlertTriangle,
-  Layers,
   Sparkles,
   ExternalLink,
 } from "lucide-react";
 
 export default function AdminDashboardPage() {
   const [activeMenu, setActiveMenu] = React.useState("dashboard");
-  const [dateRange, setDateRange] = React.useState<DateRange>({
+  const [dateRange, setDateRange] = React.useState<DateRange>(() => ({
     from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
     to: new Date(),
-  });
+  }));
   const [isAddSkuOpen, setIsAddSkuOpen] = React.useState(false);
   const [isExportOpen, setIsExportOpen] = React.useState(false);
 
@@ -66,7 +63,7 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex antialiased">
+    <div className="flex min-h-screen bg-zinc-50 text-zinc-900 antialiased dark:bg-[#09090b] dark:text-zinc-100">
       {/* Collapsible Sidebar */}
       <Sidebar
         activeId={activeMenu}
@@ -82,11 +79,11 @@ export default function AdminDashboardPage() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
         {/* Top Navigation Bar */}
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-zinc-200/80 bg-white/80 px-6 backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#09090b]/80">
           <div className="flex items-center gap-3">
-            <span className="font-bold text-sm tracking-tight sm:text-base">
+            <span className="text-sm font-bold tracking-tight sm:text-base">
               Pusat Kendali Admin
             </span>
             <Badge variant="success" dot>
@@ -96,12 +93,12 @@ export default function AdminDashboardPage() {
 
           <div className="flex items-center gap-2.5">
             <Link href="/dashboard">
-              <Button variant="ghost" size="sm" className="text-xs gap-1.5 hidden sm:inline-flex">
+              <Button variant="ghost" size="sm" className="hidden gap-1.5 text-xs sm:inline-flex">
                 <ExternalLink className="h-3.5 w-3.5" /> Mode Kasir
               </Button>
             </Link>
             <Link href="/design-system">
-              <Button variant="ghost" size="sm" className="text-xs gap-1.5 hidden sm:inline-flex">
+              <Button variant="ghost" size="sm" className="hidden gap-1.5 text-xs sm:inline-flex">
                 <Sparkles className="h-3.5 w-3.5 text-emerald-500" /> Design System
               </Button>
             </Link>
@@ -111,9 +108,9 @@ export default function AdminDashboardPage() {
         </header>
 
         {/* Dashboard Content */}
-        <main className="p-6 space-y-6 max-w-7xl w-full mx-auto">
+        <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
           {/* Top Actions & Date Filter Row */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <h1 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
                 Ringkasan Penjualan & Inventaris
@@ -155,7 +152,7 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* KPI Metrics Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
@@ -164,11 +161,10 @@ export default function AdminDashboardPage() {
                     <DollarSign className="h-4 w-4" />
                   </div>
                 </div>
-                <CardTitle className="text-2xl font-mono font-bold mt-1">
-                  Rp 148.520.000
-                </CardTitle>
-                <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium pt-1">
-                  <TrendingUp className="h-3.5 w-3.5" /> +18.4% <span className="text-zinc-400">vs minggu lalu</span>
+                <CardTitle className="mt-1 font-mono text-2xl font-bold">Rp 148.520.000</CardTitle>
+                <div className="flex items-center gap-1.5 pt-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                  <TrendingUp className="h-3.5 w-3.5" /> +18.4%{" "}
+                  <span className="text-zinc-400">vs minggu lalu</span>
                 </div>
               </CardHeader>
             </Card>
@@ -181,11 +177,12 @@ export default function AdminDashboardPage() {
                     <ShoppingCart className="h-4 w-4" />
                   </div>
                 </div>
-                <CardTitle className="text-2xl font-mono font-bold mt-1">
-                  1.842 <span className="text-sm font-sans font-normal text-zinc-400">struk</span>
+                <CardTitle className="mt-1 font-mono text-2xl font-bold">
+                  1.842 <span className="font-sans text-sm font-normal text-zinc-400">struk</span>
                 </CardTitle>
-                <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium pt-1">
-                  <TrendingUp className="h-3.5 w-3.5" /> +12.1% <span className="text-zinc-400">volume naik</span>
+                <div className="flex items-center gap-1.5 pt-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                  <TrendingUp className="h-3.5 w-3.5" /> +12.1%{" "}
+                  <span className="text-zinc-400">volume naik</span>
                 </div>
               </CardHeader>
             </Card>
@@ -198,10 +195,8 @@ export default function AdminDashboardPage() {
                     <ArrowUpRight className="h-4 w-4" />
                   </div>
                 </div>
-                <CardTitle className="text-2xl font-mono font-bold mt-1">
-                  Rp 80.630
-                </CardTitle>
-                <div className="flex items-center gap-1.5 text-[11px] text-zinc-500 font-medium pt-1">
+                <CardTitle className="mt-1 font-mono text-2xl font-bold">Rp 80.630</CardTitle>
+                <div className="flex items-center gap-1.5 pt-1 text-[11px] font-medium text-zinc-500">
                   <span className="text-zinc-400">Stabil per transaksi</span>
                 </div>
               </CardHeader>
@@ -211,14 +206,14 @@ export default function AdminDashboardPage() {
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-medium text-zinc-500">SKU Aktif di Katalog</span>
-                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                     <Package className="h-4 w-4" />
                   </div>
                 </div>
-                <CardTitle className="text-2xl font-mono font-bold mt-1">
-                  342 <span className="text-sm font-sans font-normal text-zinc-400">produk</span>
+                <CardTitle className="mt-1 font-mono text-2xl font-bold">
+                  342 <span className="font-sans text-sm font-normal text-zinc-400">produk</span>
                 </CardTitle>
-                <div className="flex items-center gap-1.5 text-[11px] text-amber-600 dark:text-amber-400 font-medium pt-1">
+                <div className="flex items-center gap-1.5 pt-1 text-[11px] font-medium text-amber-600 dark:text-amber-400">
                   <AlertTriangle className="h-3 w-3" /> 4 SKU stok kritis
                 </div>
               </CardHeader>
@@ -230,10 +225,12 @@ export default function AdminDashboardPage() {
             <CardHeader className="flex flex-row items-center justify-between pb-3">
               <div>
                 <CardTitle className="text-base">Aktivitas Transaksi Kasir Terkini</CardTitle>
-                <CardDescription>Daftar pembayaran yang baru saja diselesaikan di terminal.</CardDescription>
+                <CardDescription>
+                  Daftar pembayaran yang baru saja diselesaikan di terminal.
+                </CardDescription>
               </div>
               <div className="flex items-center gap-1.5 text-xs text-zinc-500">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                 <span className="font-mono text-[11px]">Sync 5s</span>
               </div>
             </CardHeader>
@@ -255,32 +252,48 @@ export default function AdminDashboardPage() {
                     <TableCell className="font-medium">Kasir 01 (Budi)</TableCell>
                     <TableCell>QRIS Dinamis</TableCell>
                     <TableCell className="font-mono text-xs text-zinc-400">14:48 WIB</TableCell>
-                    <TableCell className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">Rp 185.000</TableCell>
-                    <TableCell><Badge variant="success">Lunas</Badge></TableCell>
+                    <TableCell className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                      Rp 185.000
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="success">Lunas</Badge>
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-mono text-xs font-bold">#TRX-9940</TableCell>
                     <TableCell className="font-medium">Kasir 02 (Siti)</TableCell>
                     <TableCell>Tunai / Cash</TableCell>
                     <TableCell className="font-mono text-xs text-zinc-400">14:42 WIB</TableCell>
-                    <TableCell className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">Rp 45.000</TableCell>
-                    <TableCell><Badge variant="success">Lunas</Badge></TableCell>
+                    <TableCell className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                      Rp 45.000
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="success">Lunas</Badge>
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-mono text-xs font-bold">#TRX-9939</TableCell>
                     <TableCell className="font-medium">Kasir 01 (Budi)</TableCell>
                     <TableCell>Kartu Debit EDC</TableCell>
                     <TableCell className="font-mono text-xs text-zinc-400">14:35 WIB</TableCell>
-                    <TableCell className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">Rp 420.000</TableCell>
-                    <TableCell><Badge variant="success">Lunas</Badge></TableCell>
+                    <TableCell className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                      Rp 420.000
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="success">Lunas</Badge>
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-mono text-xs font-bold">#TRX-9938</TableCell>
                     <TableCell className="font-medium">Kasir 03 (Doni)</TableCell>
                     <TableCell>Transfer Bank</TableCell>
                     <TableCell className="font-mono text-xs text-zinc-400">14:20 WIB</TableCell>
-                    <TableCell className="font-mono font-semibold text-zinc-600 dark:text-zinc-300">Rp 950.000</TableCell>
-                    <TableCell><Badge variant="warning">Menunggu Konfirmasi</Badge></TableCell>
+                    <TableCell className="font-mono font-semibold text-zinc-600 dark:text-zinc-300">
+                      Rp 950.000
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="warning">Menunggu Konfirmasi</Badge>
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -332,7 +345,7 @@ export default function AdminDashboardPage() {
             />
           </div>
 
-          <div className="pt-4 flex justify-end gap-2">
+          <div className="flex justify-end gap-2 pt-4">
             <Button type="button" variant="secondary" onClick={() => setIsAddSkuOpen(false)}>
               Batal
             </Button>

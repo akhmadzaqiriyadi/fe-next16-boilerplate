@@ -13,10 +13,10 @@ export function ProductCard({ product }: ProductCardProps) {
     <Card className="group relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
       <CardHeader className="flex flex-row items-start justify-between pb-2">
         <div className="space-y-1">
-          <CardTitle className="text-base font-medium group-hover:text-emerald-500 transition-colors">
+          <CardTitle className="text-base font-medium transition-colors group-hover:text-emerald-500">
             {product.name}
           </CardTitle>
-          <div className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
+          <div className="flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-zinc-400">
             <Tag className="h-3 w-3" />
             <span>{product.sku}</span>
           </div>
@@ -26,7 +26,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </Badge>
       </CardHeader>
       <CardContent>
-        <div className="flex items-baseline justify-between mt-2">
+        <div className="mt-2 flex items-baseline justify-between">
           <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
             Rp {product.price.toLocaleString("id-ID")}
           </span>

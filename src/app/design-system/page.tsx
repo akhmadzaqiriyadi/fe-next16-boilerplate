@@ -38,11 +38,9 @@ import {
   ArrowLeft,
   Sparkles,
   Search,
-  Mail,
   Zap,
   Sliders,
   Palette,
-  Type,
   Box,
   Rows,
   MoreVertical,
@@ -53,7 +51,6 @@ import {
   Filter,
   Loader,
   Calendar,
-  Clock,
   Layers,
   PanelRight,
   Info,
@@ -68,11 +65,11 @@ export default function DesignSystemPage() {
   const [checkbox2, setCheckbox2] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("hardware");
   const [comboboxVal, setComboboxVal] = useState("pos-printer");
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [dateRange, setDateRange] = useState<DateRange>({
+  const [selectedDate, setSelectedDate] = useState<Date | null>(() => new Date());
+  const [dateRange, setDateRange] = useState<DateRange>(() => ({
     from: new Date(),
     to: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-  });
+  }));
   const [selectedTime, setSelectedTime] = useState("14:30");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
@@ -98,19 +95,19 @@ export default function DesignSystemPage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 antialiased selection:bg-emerald-500/20"
+      className="min-h-screen bg-zinc-50 text-zinc-900 antialiased selection:bg-emerald-500/20 dark:bg-[#09090b] dark:text-zinc-100"
     >
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-zinc-200/80 bg-white/80 backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#09090b]/80">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-3">
             <Link href="/">
-              <Button variant="ghost" size="sm" className="gap-1.5 -ml-2">
+              <Button variant="ghost" size="sm" className="-ml-2 gap-1.5">
                 <ArrowLeft className="h-4 w-4" /> Beranda
               </Button>
             </Link>
             <div className="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800" />
-            <span className="font-bold text-sm tracking-tight flex items-center gap-1.5">
+            <span className="flex items-center gap-1.5 text-sm font-bold tracking-tight">
               <Sparkles className="h-4 w-4 text-emerald-500" /> Forge Design System (FDS)
             </span>
           </div>
@@ -124,68 +121,71 @@ export default function DesignSystemPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-12 space-y-16">
+      <main className="mx-auto max-w-6xl space-y-16 px-6 py-12">
         {/* Intro */}
         <section className="gsap-fade-up space-y-4">
           <div className="inline-flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-400">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
             23 In-House Primitives & Design Tokens
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+          <h1 className="text-3xl font-extrabold tracking-tight text-zinc-950 sm:text-5xl dark:text-white">
             Design Tokens & Advanced Controls
           </h1>
-          <p className="max-w-2xl text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Struktur geometris tegas, palet solid matte, dropdown menu floating,
-            searchable combobox, theme toggle dark/light, skeleton, dan custom checkbox yang sepenuhnya interaktif.
+          <p className="max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+            Struktur geometris tegas, palet solid matte, dropdown menu floating, searchable
+            combobox, theme toggle dark/light, skeleton, dan custom checkbox yang sepenuhnya
+            interaktif.
           </p>
         </section>
 
         {/* 1. Color Palette Tokens */}
         <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
             <Palette className="h-5 w-5 text-emerald-500" />
             <h2 className="text-xl font-bold tracking-tight">1. Palet Warna Solid Matte</h2>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-6">
             <div className="space-y-2">
-              <div className="h-16 rounded-md bg-[#09090b] border border-zinc-800 shadow-xs" />
+              <div className="h-16 rounded-md border border-zinc-800 bg-[#09090b] shadow-xs" />
               <p className="text-xs font-semibold">Obsidian Canvas</p>
-              <p className="text-[11px] font-mono text-zinc-400">#09090b</p>
+              <p className="font-mono text-[11px] text-zinc-400">#09090b</p>
             </div>
             <div className="space-y-2">
-              <div className="h-16 rounded-md bg-[#121215] border border-zinc-800 shadow-xs" />
+              <div className="h-16 rounded-md border border-zinc-800 bg-[#121215] shadow-xs" />
               <p className="text-xs font-semibold">Obsidian Surface</p>
-              <p className="text-[11px] font-mono text-zinc-400">#121215</p>
+              <p className="font-mono text-[11px] text-zinc-400">#121215</p>
             </div>
             <div className="space-y-2">
               <div className="h-16 rounded-md bg-[#10b981] shadow-xs" />
               <p className="text-xs font-semibold">Solid Emerald</p>
-              <p className="text-[11px] font-mono text-zinc-400">#10b981</p>
+              <p className="font-mono text-[11px] text-zinc-400">#10b981</p>
             </div>
             <div className="space-y-2">
               <div className="h-16 rounded-md bg-[#38bdf8] shadow-xs" />
               <p className="text-xs font-semibold">Electric Cyan</p>
-              <p className="text-[11px] font-mono text-zinc-400">#38bdf8</p>
+              <p className="font-mono text-[11px] text-zinc-400">#38bdf8</p>
             </div>
             <div className="space-y-2">
               <div className="h-16 rounded-md bg-[#fbbf24] shadow-xs" />
               <p className="text-xs font-semibold">Warm Amber</p>
-              <p className="text-[11px] font-mono text-zinc-400">#fbbf24</p>
+              <p className="font-mono text-[11px] text-zinc-400">#fbbf24</p>
             </div>
             <div className="space-y-2">
               <div className="h-16 rounded-md bg-[#fb7185] shadow-xs" />
               <p className="text-xs font-semibold">Rose Danger</p>
-              <p className="text-[11px] font-mono text-zinc-400">#fb7185</p>
+              <p className="font-mono text-[11px] text-zinc-400">#fb7185</p>
             </div>
           </div>
         </section>
 
         {/* 2. Button Variants */}
         <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
             <Box className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">2. Button Primitives (Solid Matte, No Pills)</h2>
+            <h2 className="text-xl font-bold tracking-tight">
+              2. Button Primitives (Solid Matte, No Pills)
+            </h2>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -197,11 +197,7 @@ export default function DesignSystemPage() {
             <Button variant="accent" className="gap-2">
               <Zap className="h-4 w-4" /> Solid Emerald Accent
             </Button>
-            <Button
-              variant="primary"
-              isLoading={btnLoading}
-              onClick={handleSimulateLoad}
-            >
+            <Button variant="primary" isLoading={btnLoading} onClick={handleSimulateLoad}>
               Simulate Loading
             </Button>
           </div>
@@ -209,16 +205,20 @@ export default function DesignSystemPage() {
 
         {/* 3. Inputs, Checkbox & Form Controls */}
         <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
             <Sliders className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">3. Form Controls & Interactive Checkbox</h2>
+            <h2 className="text-xl font-bold tracking-tight">
+              3. Form Controls & Interactive Checkbox
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">Input & Select</CardTitle>
-                <CardDescription>Custom search input dan select tanpa panah default browser yang kaku.</CardDescription>
+                <CardDescription>
+                  Custom search input dan select tanpa panah default browser yang kaku.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Input
@@ -241,7 +241,9 @@ export default function DesignSystemPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">Checkbox & Interactive Controls</CardTitle>
-                <CardDescription>Custom checkbox interaktif (klik untuk mencoba centang!).</CardDescription>
+                <CardDescription>
+                  Custom checkbox interaktif (klik untuk mencoba centang!).
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex flex-col gap-3">
@@ -265,7 +267,7 @@ export default function DesignSystemPage() {
                   />
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-zinc-800">
+                <div className="flex items-center justify-between border-t border-zinc-200 pt-2 dark:border-zinc-800">
                   <div className="space-y-0.5">
                     <p className="text-sm font-medium">Auto-Sync POS</p>
                     <p className="text-xs text-zinc-500">Kirim state keranjang via WebSocket</p>
@@ -288,12 +290,14 @@ export default function DesignSystemPage() {
 
         {/* 4. Date & Time Pickers */}
         <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
             <Calendar className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">4. Date Picker, Range (H-1 Safe) & Time Picker</h2>
+            <h2 className="text-xl font-bold tracking-tight">
+              4. Date Picker, Range (H-1 Safe) & Time Picker
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {/* Single Date Picker */}
             <Card>
               <CardHeader>
@@ -311,8 +315,13 @@ export default function DesignSystemPage() {
                   }}
                   placeholder="Pilih tanggal..."
                 />
-                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
-                  Tanggal: <span className="font-bold text-emerald-500">{selectedDate ? selectedDate.toLocaleDateString("id-ID", { dateStyle: "medium" }) : "-"}</span>
+                <div className="rounded-md border border-zinc-200 bg-zinc-100/70 p-3 font-mono text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400">
+                  Tanggal:{" "}
+                  <span className="font-bold text-emerald-500">
+                    {selectedDate
+                      ? selectedDate.toLocaleDateString("id-ID", { dateStyle: "medium" })
+                      : "-"}
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -336,9 +345,19 @@ export default function DesignSystemPage() {
                   }}
                   placeholder="Pilih periode..."
                 />
-                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400 space-y-0.5">
-                  <div>Dari: <span className="font-bold text-emerald-500">{dateRange.from ? dateRange.from.toLocaleDateString("id-ID") : "-"}</span></div>
-                  <div>Sampai: <span className="font-bold text-emerald-500">{dateRange.to ? dateRange.to.toLocaleDateString("id-ID") : "(tgl akhir...)"}</span></div>
+                <div className="space-y-0.5 rounded-md border border-zinc-200 bg-zinc-100/70 p-3 font-mono text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400">
+                  <div>
+                    Dari:{" "}
+                    <span className="font-bold text-emerald-500">
+                      {dateRange.from ? dateRange.from.toLocaleDateString("id-ID") : "-"}
+                    </span>
+                  </div>
+                  <div>
+                    Sampai:{" "}
+                    <span className="font-bold text-emerald-500">
+                      {dateRange.to ? dateRange.to.toLocaleDateString("id-ID") : "(tgl akhir...)"}
+                    </span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -360,8 +379,11 @@ export default function DesignSystemPage() {
                   }}
                   placeholder="Pilih jam (JJ:MM)..."
                 />
-                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
-                  Jam Terpilih: <span className="font-bold text-emerald-500">{selectedTime ? `${selectedTime} WIB` : "-"}</span>
+                <div className="rounded-md border border-zinc-200 bg-zinc-100/70 p-3 font-mono text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400">
+                  Jam Terpilih:{" "}
+                  <span className="font-bold text-emerald-500">
+                    {selectedTime ? `${selectedTime} WIB` : "-"}
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -370,18 +392,22 @@ export default function DesignSystemPage() {
 
         {/* 5. Advanced Controls: Dropdown Menu, Combobox & Debounce */}
         <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
             <Filter className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">5. Combobox, Dropdown Menu & Debounce Hook</h2>
+            <h2 className="text-xl font-bold tracking-tight">
+              5. Combobox, Dropdown Menu & Debounce Hook
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Combobox (Searchable Select) */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
                   <CardTitle className="text-base">Combobox (Autocomplete)</CardTitle>
-                  <CardDescription>Searchable dropdown dengan live filter dan zero pill design.</CardDescription>
+                  <CardDescription>
+                    Searchable dropdown dengan live filter dan zero pill design.
+                  </CardDescription>
                 </div>
                 {/* Dropdown Menu Trigger */}
                 <DropdownMenu
@@ -433,7 +459,7 @@ export default function DesignSystemPage() {
                     { value: "pos-stand", label: "Tablet POS Stand Aluminum (SKU-4401)" },
                   ]}
                 />
-                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+                <div className="rounded-md border border-zinc-200 bg-zinc-100/70 p-3 font-mono text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400">
                   Value Terpilih: <span className="font-bold text-emerald-500">{comboboxVal}</span>
                 </div>
               </CardContent>
@@ -454,22 +480,23 @@ export default function DesignSystemPage() {
                   placeholder="Ketik cepat untuk menguji debounce..."
                   leftIcon={<Search className="h-4 w-4" />}
                 />
-                <div className="grid grid-cols-2 gap-3 text-xs font-mono">
-                  <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3 space-y-1">
+                <div className="grid grid-cols-2 gap-3 font-mono text-xs">
+                  <div className="space-y-1 rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
                     <span className="text-zinc-400">State Langsung:</span>
-                    <p className="font-bold text-zinc-900 dark:text-zinc-100 truncate">
+                    <p className="truncate font-bold text-zinc-900 dark:text-zinc-100">
                       {liveSearch || "(kosong)"}
                     </p>
                   </div>
-                  <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3 space-y-1">
+                  <div className="space-y-1 rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
                     <span className="text-emerald-500">Debounced Value:</span>
-                    <p className="font-bold text-emerald-600 dark:text-emerald-400 truncate">
+                    <p className="truncate font-bold text-emerald-600 dark:text-emerald-400">
                       {debouncedSearch || "(kosong)"}
                     </p>
                   </div>
                 </div>
-                <p className="text-[11px] text-zinc-500 leading-relaxed">
-                  Query ke backend Go / database hanya akan dieksekusi saat user berhenti mengetik 400ms.
+                <p className="text-[11px] leading-relaxed text-zinc-500">
+                  Query ke backend Go / database hanya akan dieksekusi saat user berhenti mengetik
+                  400ms.
                 </p>
               </CardContent>
             </Card>
@@ -478,22 +505,26 @@ export default function DesignSystemPage() {
 
         {/* 6. Skeleton & Loading Primitives */}
         <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
             <Loader className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">6. Skeleton & Global Loading Components</h2>
+            <h2 className="text-xl font-bold tracking-tight">
+              6. Skeleton & Global Loading Components
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Card Skeleton Demo */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">Skeleton Placeholders</CardTitle>
-                <CardDescription>Shimmering placeholder untuk asynchronous data fetch state.</CardDescription>
+                <CardDescription>
+                  Shimmering placeholder untuk asynchronous data fetch state.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Skeleton className="h-10 w-10 rounded-md" />
-                  <div className="space-y-1.5 flex-1">
+                  <div className="flex-1 space-y-1.5">
                     <Skeleton className="h-4 w-3/4 rounded-md" />
                     <Skeleton className="h-3 w-1/2 rounded-md" />
                   </div>
@@ -520,7 +551,7 @@ export default function DesignSystemPage() {
                   <Spinner size="md" label="Sinkronisasi POS..." />
                   <Spinner size="lg" />
                 </div>
-                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+                <div className="flex items-center justify-between rounded-md border border-zinc-200 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/30">
                   <div className="space-y-0.5">
                     <p className="text-xs font-semibold">Status Sync Background</p>
                     <p className="text-[11px] text-zinc-500">Mengecek koneksi ke backend Go</p>
@@ -534,9 +565,11 @@ export default function DesignSystemPage() {
 
         {/* 7. Custom Table Component */}
         <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
             <Rows className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">7. Custom Table Component (Zero Raw HTML Table)</h2>
+            <h2 className="text-xl font-bold tracking-tight">
+              7. Custom Table Component (Zero Raw HTML Table)
+            </h2>
           </div>
 
           <Table>
@@ -556,7 +589,9 @@ export default function DesignSystemPage() {
                 <TableCell>Hardware POS</TableCell>
                 <TableCell className="font-semibold">Rp 850.000</TableCell>
                 <TableCell>
-                  <Badge variant="success" dot>Aktif</Badge>
+                  <Badge variant="success" dot>
+                    Aktif
+                  </Badge>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -565,7 +600,9 @@ export default function DesignSystemPage() {
                 <TableCell>Aksesoris</TableCell>
                 <TableCell className="font-semibold">Rp 420.000</TableCell>
                 <TableCell>
-                  <Badge variant="success" dot>Aktif</Badge>
+                  <Badge variant="success" dot>
+                    Aktif
+                  </Badge>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -574,7 +611,9 @@ export default function DesignSystemPage() {
                 <TableCell>Consumable</TableCell>
                 <TableCell className="font-semibold">Rp 95.000</TableCell>
                 <TableCell>
-                  <Badge variant="warning" dot>Stok Tipis</Badge>
+                  <Badge variant="warning" dot>
+                    Stok Tipis
+                  </Badge>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -583,39 +622,40 @@ export default function DesignSystemPage() {
 
         {/* 8. Overlays, Drawers & Navigation Primitives */}
         <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
             <Layers className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">8. Overlays, Drawers & Navigation Primitives</h2>
+            <h2 className="text-xl font-bold tracking-tight">
+              8. Overlays, Drawers & Navigation Primitives
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Sheet Drawer & Modal Triggers */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">Slide-Over Sheet & Modal Dialog</CardTitle>
                 <CardDescription>
-                  Drawer samping (Sheet) dan Modal dengan Backdrop blur terpadu serta animasi masuk halus.
+                  Drawer samping (Sheet) dan Modal dengan Backdrop blur terpadu serta animasi masuk
+                  halus.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-3">
-                  <Button
-                    variant="primary"
-                    onClick={() => setIsSheetOpen(true)}
-                    className="gap-2"
-                  >
+                  <Button variant="primary" onClick={() => setIsSheetOpen(true)} className="gap-2">
                     <PanelRight className="h-4 w-4" /> Buka Sheet Drawer (Kanan)
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsDialogOpen(true)}
-                    className="gap-2"
-                  >
+                  <Button variant="outline" onClick={() => setIsDialogOpen(true)} className="gap-2">
                     <Layers className="h-4 w-4" /> Buka Modal Dialog
                   </Button>
                 </div>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                  Kedua komponen menggunakan reusable <code className="font-mono text-zinc-700 dark:text-zinc-300">Backdrop</code> dengan <code className="font-mono text-zinc-700 dark:text-zinc-300">backdrop-blur-md</code>, body scroll lock otomatis, dan keyboard escape listener.
+                  Kedua komponen menggunakan reusable{" "}
+                  <code className="font-mono text-zinc-700 dark:text-zinc-300">Backdrop</code>{" "}
+                  dengan{" "}
+                  <code className="font-mono text-zinc-700 dark:text-zinc-300">
+                    backdrop-blur-md
+                  </code>
+                  , body scroll lock otomatis, dan keyboard escape listener.
                 </p>
               </CardContent>
             </Card>
@@ -630,7 +670,7 @@ export default function DesignSystemPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <p className="text-xs text-zinc-500 mb-2 font-medium">Segmented Control:</p>
+                  <p className="mb-2 text-xs font-medium text-zinc-500">Segmented Control:</p>
                   <Tabs
                     value={activeTab}
                     onChange={setActiveTab}
@@ -642,7 +682,7 @@ export default function DesignSystemPage() {
                   />
                 </div>
 
-                <div className="pt-2 flex items-center gap-2">
+                <div className="flex items-center gap-2 pt-2">
                   <span className="text-xs text-zinc-500">Arahkan kursor:</span>
                   <Tooltip content="Tooltip tajam rounded-[4px] zero-pill">
                     <Button variant="secondary" size="xs" className="gap-1">
@@ -659,11 +699,12 @@ export default function DesignSystemPage() {
             <CardHeader>
               <CardTitle className="text-base">Collapsible Navigation Sidebar</CardTitle>
               <CardDescription>
-                Sidebar dashboard responsif dengan toggle ciutkan (expand/collapse 240px ↔ 68px), badge counter, dan profil user.
+                Sidebar dashboard responsif dengan toggle ciutkan (expand/collapse 240px ↔ 68px),
+                badge counter, dan profil user.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-96 rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden flex bg-zinc-50/50 dark:bg-zinc-950">
+              <div className="flex h-96 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-950">
                 <Sidebar
                   activeId={sidebarActiveId}
                   onSelectId={(id) => {
@@ -671,13 +712,16 @@ export default function DesignSystemPage() {
                     toast.info(`Navigasi ke: ${id}`);
                   }}
                 />
-                <div className="flex-1 p-6 flex flex-col justify-center items-center text-center">
-                  <div className="h-10 w-10 rounded-md bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-300 mb-2">
+                <div className="flex flex-1 flex-col items-center justify-center p-6 text-center">
+                  <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-md bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
                     <Layers className="h-5 w-5" />
                   </div>
-                  <h4 className="font-bold text-sm">Halaman Konten: {sidebarActiveId.toUpperCase()}</h4>
-                  <p className="text-xs text-zinc-500 max-w-sm mt-1">
-                    Coba klik tombol panah di kanan atas logo &quot;Forge POS&quot; untuk menguji ciutkan / lebarkan sidebar secara mulus.
+                  <h4 className="text-sm font-bold">
+                    Halaman Konten: {sidebarActiveId.toUpperCase()}
+                  </h4>
+                  <p className="mt-1 max-w-sm text-xs text-zinc-500">
+                    Coba klik tombol panah di kanan atas logo &quot;Forge POS&quot; untuk menguji
+                    ciutkan / lebarkan sidebar secara mulus.
                   </p>
                 </div>
               </div>
@@ -695,7 +739,7 @@ export default function DesignSystemPage() {
         size="md"
       >
         <div className="space-y-4">
-          <div className="rounded-md border border-zinc-200 dark:border-zinc-800 p-3 bg-zinc-50/50 dark:bg-zinc-900/40 space-y-2">
+          <div className="space-y-2 rounded-md border border-zinc-200 bg-zinc-50/50 p-3 dark:border-zinc-800 dark:bg-zinc-900/40">
             <div className="flex justify-between text-xs">
               <span className="text-zinc-500">ID Transaksi</span>
               <span className="font-mono font-semibold">TRX-2026-9912</span>
@@ -711,22 +755,22 @@ export default function DesignSystemPage() {
           </div>
 
           <div className="space-y-2">
-            <h4 className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider font-mono">
+            <h4 className="font-mono text-xs font-semibold tracking-wider text-zinc-700 uppercase dark:text-zinc-300">
               Item Belanja:
             </h4>
             <div className="space-y-1 text-xs">
-              <div className="flex justify-between py-1 border-b border-zinc-100 dark:border-zinc-800/60">
+              <div className="flex justify-between border-b border-zinc-100 py-1 dark:border-zinc-800/60">
                 <span>Thermal Printer 80mm x 1</span>
                 <span className="font-mono font-semibold">Rp 850.000</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-zinc-100 dark:border-zinc-800/60">
+              <div className="flex justify-between border-b border-zinc-100 py-1 dark:border-zinc-800/60">
                 <span>Barcode Scanner 2D x 1</span>
                 <span className="font-mono font-semibold">Rp 420.000</span>
               </div>
             </div>
           </div>
 
-          <div className="pt-4 flex justify-end gap-2">
+          <div className="flex justify-end gap-2 pt-4">
             <Button variant="secondary" onClick={() => setIsSheetOpen(false)}>
               Tutup Drawer
             </Button>
@@ -752,7 +796,9 @@ export default function DesignSystemPage() {
       >
         <div className="space-y-4 pt-2">
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Seluruh kontrol (DatePicker, DateRangePicker, Combobox, Dropdown, Checkbox, Select, Skeleton, Spinner) dibuat dengan sudut geometris terukur (rounded-md / rounded-[4px]), zero native HTML, dan proteksi anti-bug range H-1.
+            Seluruh kontrol (DatePicker, DateRangePicker, Combobox, Dropdown, Checkbox, Select,
+            Skeleton, Spinner) dibuat dengan sudut geometris terukur (rounded-md / rounded-[4px]),
+            zero native HTML, dan proteksi anti-bug range H-1.
           </p>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="secondary" onClick={() => setIsDialogOpen(false)}>

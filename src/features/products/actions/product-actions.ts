@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import type { Product, CreateProductInput } from "../types";
 
-export async function createProductAction(data: CreateProductInput): Promise<{ success: boolean; data?: Product; error?: string }> {
+export async function createProductAction(
+  data: CreateProductInput
+): Promise<{ success: boolean; data?: Product; error?: string }> {
   try {
     // In production, insert to PostgreSQL or backend API
     const newProduct: Product = {

@@ -2,14 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import {
-  startOfDay,
-  isSameDay,
-  isBeforeDay,
-  isAfterDay,
-  formatDate,
-  formatMonthYear,
-} from "@/lib/date-utils";
+import { isSameDay, isBeforeDay, isAfterDay, formatDate, formatMonthYear } from "@/lib/date-utils";
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 export interface DatePickerProps {
@@ -35,17 +28,18 @@ export function DatePicker({
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   // Current view month & year
-  const initialDate = value || new Date();
-  const [viewYear, setViewYear] = React.useState(initialDate.getFullYear());
-  const [viewMonth, setViewMonth] = React.useState(initialDate.getMonth());
+  const [viewYear, setViewYear] = React.useState(() => (value || new Date()).getFullYear());
+  const [viewMonth, setViewMonth] = React.useState(() => (value || new Date()).getMonth());
+  const [prevValue, setPrevValue] = React.useState(value);
 
   // Keep view aligned when value changes
-  React.useEffect(() => {
+  if (value !== prevValue) {
+    setPrevValue(value);
     if (value) {
       setViewYear(value.getFullYear());
       setViewMonth(value.getMonth());
     }
-  }, [value]);
+  }
 
   // Click outside to close
   React.useEffect(() => {
@@ -123,15 +117,15 @@ export function DatePicker({
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         className={cn(
-          "flex h-10 w-full items-center justify-between rounded-md border bg-white px-3.5 text-sm transition-all duration-200 cursor-pointer select-none",
+          "flex h-10 w-full cursor-pointer items-center justify-between rounded-md border bg-white px-3.5 text-sm transition-all duration-200 select-none",
           "border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-100",
-          "focus-visible:border-emerald-500/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20",
+          "focus-visible:border-emerald-500/80 focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:outline-none",
           isOpen && "border-emerald-500/80 ring-2 ring-emerald-500/20",
-          disabled && "cursor-not-allowed opacity-50 bg-zinc-50 dark:bg-zinc-900/30"
+          disabled && "cursor-not-allowed bg-zinc-50 opacity-50 dark:bg-zinc-900/30"
         )}
       >
         <div className="flex items-center gap-2.5 truncate">
-          <CalendarIcon className="h-4 w-4 text-zinc-400 shrink-0" />
+          <CalendarIcon className="h-4 w-4 shrink-0 text-zinc-400" />
           <span className={cn("truncate", !value && "text-zinc-400 dark:text-zinc-500")}>
             {value ? formatDate(value) : placeholder}
           </span>
@@ -143,7 +137,7 @@ export function DatePicker({
               e.stopPropagation();
               onChange?.(null);
             }}
-            className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 p-0.5 rounded-sm"
+            className="rounded-sm p-0.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -152,34 +146,37 @@ export function DatePicker({
 
       {/* Popover Calendar */}
       {isOpen && (
-        <div className="absolute z-50 mt-1.5 min-w-[280px] rounded-lg border border-zinc-200/80 bg-white p-3 shadow-xl backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl animate-in fade-in zoom-in-95">
+        <div className="animate-in fade-in zoom-in-95 absolute z-50 mt-1.5 min-w-[280px] rounded-lg border border-zinc-200/80 bg-white p-3 shadow-xl backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl">
           {/* Header Navigation */}
-          <div className="flex items-center justify-between mb-3">
+          <div className="mb-3 flex items-center justify-between">
             <button
               type="button"
               onClick={handlePrevMonth}
-              className="flex h-7 w-7 items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-300 transition-colors"
+              className="flex h-7 w-7 items-center justify-center rounded-md border border-zinc-200 text-zinc-600 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
 
-            <span className="text-xs font-semibold tracking-tight text-zinc-900 dark:text-white capitalize">
+            <span className="text-xs font-semibold tracking-tight text-zinc-900 capitalize dark:text-white">
               {formatMonthYear(viewYear, viewMonth)}
             </span>
 
             <button
               type="button"
               onClick={handleNextMonth}
-              className="flex h-7 w-7 items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-300 transition-colors"
+              className="flex h-7 w-7 items-center justify-center rounded-md border border-zinc-200 text-zinc-600 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
 
           {/* Weekday Names */}
-          <div className="grid grid-cols-7 gap-1 text-center mb-1">
+          <div className="mb-1 grid grid-cols-7 gap-1 text-center">
             {weekLabels.map((w) => (
-              <span key={w} className="text-[10.5px] font-mono font-medium text-zinc-400 dark:text-zinc-500 py-1">
+              <span
+                key={w}
+                className="py-1 font-mono text-[10.5px] font-medium text-zinc-400 dark:text-zinc-500"
+              >
                 {w}
               </span>
             ))}
@@ -207,11 +204,14 @@ export function DatePicker({
                   }}
                   className={cn(
                     "flex h-8 w-8 items-center justify-center rounded-md text-xs font-medium transition-colors select-none",
-                    disabledDay && "cursor-not-allowed opacity-25 hover:bg-transparent pointer-events-none",
+                    disabledDay &&
+                      "pointer-events-none cursor-not-allowed opacity-25 hover:bg-transparent",
                     isSelected
-                      ? "bg-zinc-900 text-white dark:bg-emerald-500 dark:text-zinc-950 font-bold shadow-xs"
+                      ? "bg-zinc-900 font-bold text-white shadow-xs dark:bg-emerald-500 dark:text-zinc-950"
                       : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800/80 dark:hover:text-white",
-                    !isSelected && isToday && "border border-emerald-500/50 text-emerald-600 dark:text-emerald-400 font-semibold"
+                    !isSelected &&
+                      isToday &&
+                      "border border-emerald-500/50 font-semibold text-emerald-600 dark:text-emerald-400"
                   )}
                 >
                   {d.getDate()}
@@ -221,7 +221,7 @@ export function DatePicker({
           </div>
 
           {/* Footer Quick Action */}
-          <div className="mt-3 pt-2.5 border-t border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between text-xs">
+          <div className="mt-3 flex items-center justify-between border-t border-zinc-100 pt-2.5 text-xs dark:border-zinc-800/60">
             <button
               type="button"
               onClick={() => {
@@ -231,7 +231,7 @@ export function DatePicker({
                 setViewMonth(now.getMonth());
                 setIsOpen(false);
               }}
-              className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
+              className="font-medium text-emerald-600 hover:underline dark:text-emerald-400"
             >
               Hari Ini
             </button>

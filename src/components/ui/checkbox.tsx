@@ -28,8 +28,8 @@ export function Checkbox({
     <label
       htmlFor={inputId}
       className={cn(
-        "inline-flex items-center gap-2.5 select-none cursor-pointer group",
-        disabled && "opacity-50 cursor-not-allowed",
+        "group inline-flex cursor-pointer items-center gap-2.5 select-none",
+        disabled && "cursor-not-allowed opacity-50",
         className
       )}
     >
@@ -43,19 +43,17 @@ export function Checkbox({
       />
       <div
         className={cn(
-          "h-5 w-5 shrink-0 rounded-md border transition-all duration-150 flex items-center justify-center",
+          "flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-all duration-150",
           "group-focus-within:ring-2 group-focus-within:ring-emerald-500/50",
           checked
-            ? "bg-zinc-900 border-zinc-900 text-white dark:bg-zinc-100 dark:border-zinc-100 dark:text-zinc-950"
+            ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-950"
             : "border-zinc-300 bg-white hover:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-600"
         )}
       >
         {checked && <Check className="h-3.5 w-3.5 stroke-[2.5]" />}
       </div>
       {label && (
-        <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-          {label}
-        </span>
+        <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{label}</span>
       )}
     </label>
   );

@@ -19,12 +19,7 @@ export interface DropdownMenuProps {
   className?: string;
 }
 
-export function DropdownMenu({
-  trigger,
-  items,
-  align = "right",
-  className,
-}: DropdownMenuProps) {
+export function DropdownMenu({ trigger, items, align = "right", className }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -58,7 +53,7 @@ export function DropdownMenu({
       {isOpen && (
         <div
           className={cn(
-            "absolute z-50 mt-2 min-w-[200px] rounded-lg border border-zinc-200/80 bg-white p-1.5 shadow-xl backdrop-blur-md transition-all animate-in fade-in zoom-in-95",
+            "animate-in fade-in zoom-in-95 absolute z-50 mt-2 min-w-[200px] rounded-lg border border-zinc-200/80 bg-white p-1.5 shadow-xl backdrop-blur-md transition-all",
             "dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl",
             align === "right" ? "right-0" : "left-0",
             className
@@ -83,7 +78,7 @@ export function DropdownMenu({
                   setIsOpen(false);
                 }}
                 className={cn(
-                  "flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors select-none text-left cursor-pointer",
+                  "flex w-full cursor-pointer items-center justify-between rounded-md px-2.5 py-1.5 text-left text-xs font-medium transition-colors select-none",
                   item.destructive
                     ? "text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
                     : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800/60 dark:hover:text-white",
@@ -91,11 +86,11 @@ export function DropdownMenu({
                 )}
               >
                 <div className="flex items-center gap-2">
-                  {item.icon && <span className="text-zinc-400 shrink-0">{item.icon}</span>}
+                  {item.icon && <span className="shrink-0 text-zinc-400">{item.icon}</span>}
                   <span>{item.label}</span>
                 </div>
                 {item.shortcut && (
-                  <span className="font-mono text-[10px] tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">
+                  <span className="font-mono text-[10px] tracking-widest text-zinc-400 uppercase dark:text-zinc-500">
                     {item.shortcut}
                   </span>
                 )}

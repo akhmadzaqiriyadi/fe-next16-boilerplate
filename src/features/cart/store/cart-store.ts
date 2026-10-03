@@ -36,8 +36,7 @@ export const useCartStore = create<CartState>()(
           return { items: [...state.items, { ...item, quantity: 1 }] };
         });
       },
-      removeItem: (id) =>
-        set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
+      removeItem: (id) => set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
       updateQuantity: (id, delta) =>
         set((state) => ({
           items: state.items
@@ -46,8 +45,7 @@ export const useCartStore = create<CartState>()(
         })),
       clearCart: () => set({ items: [] }),
       getTotalItems: () => get().items.reduce((acc, curr) => acc + curr.quantity, 0),
-      getTotalPrice: () =>
-        get().items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
+      getTotalPrice: () => get().items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
     }),
     {
       name: "rkb-pos-cart-storage",

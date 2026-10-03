@@ -89,7 +89,7 @@ export function Sheet({
               </h2>
             )}
             {description && (
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+              <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
                 {description}
               </p>
             )}
@@ -98,7 +98,7 @@ export function Sheet({
             type="button"
             onClick={onClose}
             aria-label="Tutup Sheet"
-            className="rounded-md p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+            className="cursor-pointer rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
           >
             <X className="h-4 w-4" />
           </button>

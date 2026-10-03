@@ -50,7 +50,7 @@ export function Backdrop({
       role="presentation"
       onClick={onClose}
       className={cn(
-        "fixed inset-0 z-50 transition-opacity duration-300 animate-in fade-in cursor-pointer select-none",
+        "animate-in fade-in fixed inset-0 z-50 cursor-pointer transition-opacity duration-300 select-none",
         blurs[blur],
         opacities[opacity],
         className

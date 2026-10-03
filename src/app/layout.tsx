@@ -20,7 +20,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Next.js 16 Pro Boilerplate",
-  description: "Production-ready 2026 Next.js 16 + React 19 Starter with Feature-Sliced Architecture, Plus Jakarta Sans, TanStack Query, Zustand, and Tailwind v4",
+  description:
+    "Production-ready 2026 Next.js 16 + React 19 Starter with Feature-Sliced Architecture, Plus Jakarta Sans, TanStack Query, Zustand, and Tailwind v4",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -28,9 +29,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${plusJakartaSans.variable} ${geistMono.variable} font-sans h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${geistMono.variable} h-full font-sans antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
+      <body className="flex min-h-full flex-col bg-zinc-50 text-zinc-900 transition-colors duration-200 dark:bg-[#09090b] dark:text-zinc-100">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
