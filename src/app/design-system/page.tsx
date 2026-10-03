@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { Combobox } from "@/components/ui/combobox";
 import {
   Table,
   TableBody,
@@ -20,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { useGsapReveal } from "@/hooks/use-gsap-reveal";
+import { useDebounce } from "@/hooks/use-debounce";
 import { toast } from "sonner";
 import {
   ArrowLeft,
@@ -31,8 +34,14 @@ import {
   Palette,
   Type,
   Box,
-  CheckSquare,
   Rows,
+  MoreVertical,
+  Edit,
+  Copy,
+  Trash2,
+  Share2,
+  Filter,
+  CheckCircle,
 } from "lucide-react";
 
 export default function DesignSystemPage() {
@@ -42,6 +51,9 @@ export default function DesignSystemPage() {
   const [isSwitchActive, setIsSwitchActive] = useState(true);
   const [checkboxActive, setCheckboxActive] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("hardware");
+  const [comboboxVal, setComboboxVal] = useState("pos-printer");
+  const [liveSearch, setLiveSearch] = useState("");
+  const debouncedSearch = useDebounce(liveSearch, 400);
   const [btnLoading, setBtnLoading] = useState(false);
 
   const handleTestToast = () => {
@@ -88,14 +100,14 @@ export default function DesignSystemPage() {
         {/* Intro */}
         <section className="gsap-fade-up space-y-4">
           <Badge variant="outline" className="gap-1 font-mono">
-            Pure In-House Engineering • GSAP Powered
+            No Pill Shapes • No AI-Slop • Zero Native HTML
           </Badge>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
-            Design Tokens & UI Manual (No AI-Slop)
+            Design Tokens & Advanced Controls
           </h1>
           <p className="max-w-2xl text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Semua elemen UI dirancang custom tanpa elemen bawaan browser mentah. Warna solid matte dengan kontras tinggi,
-            bebas dari gradien norak berulang, dan didukung mikro-interaksi halus GSAP.
+            Struktur geometris tegas (radius persegi halus, bukan kapsul/pill), palet solid matte, dropdown menu floating,
+            searchable combobox, dan optimasi input via hook useDebounce.
           </p>
         </section>
 
@@ -144,7 +156,7 @@ export default function DesignSystemPage() {
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Box className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">2. Button Primitives (Solid Matte)</h2>
+            <h2 className="text-xl font-bold tracking-tight">2. Button Primitives (Solid Matte, No Pills)</h2>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -166,17 +178,17 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        {/* 3. Inputs, Select, Checkbox & Form Controls */}
+        {/* 3. Inputs, Checkbox & Form Controls */}
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Sliders className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">3. Form Controls (Zero Native Browser HTML)</h2>
+            <h2 className="text-xl font-bold tracking-tight">3. Form Controls & Modal</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Input & Dropdown Select</CardTitle>
+                <CardTitle className="text-base">Input & Select</CardTitle>
                 <CardDescription>Custom search input dan select tanpa panah default browser yang kaku.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -239,11 +251,119 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        {/* 4. Custom Table Component */}
+        {/* 4. Advanced Controls: Dropdown Menu, Combobox & Debounce */}
+        <section className="gsap-fade-up space-y-6">
+          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <Filter className="h-5 w-5 text-emerald-500" />
+            <h2 className="text-xl font-bold tracking-tight">4. Combobox, Dropdown Menu & Debounce Hook</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Combobox (Searchable Select) */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-base">Combobox (Autocomplete)</CardTitle>
+                  <CardDescription>Searchable dropdown dengan live filter dan zero pill design.</CardDescription>
+                </div>
+                {/* Dropdown Menu Trigger */}
+                <DropdownMenu
+                  trigger={
+                    <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  }
+                  items={[
+                    {
+                      label: "Salin SKU",
+                      icon: <Copy className="h-3.5 w-3.5" />,
+                      shortcut: "⌘C",
+                      onClick: () => toast.info("SKU tersalin ke clipboard"),
+                    },
+                    {
+                      label: "Edit Kategori",
+                      icon: <Edit className="h-3.5 w-3.5" />,
+                      shortcut: "⌘E",
+                      onClick: () => toast.info("Buka modal edit"),
+                    },
+                    "separator",
+                    {
+                      label: "Bagikan Produk",
+                      icon: <Share2 className="h-3.5 w-3.5" />,
+                      onClick: () => toast.success("Link terbagikan"),
+                    },
+                    "separator",
+                    {
+                      label: "Hapus Item",
+                      icon: <Trash2 className="h-3.5 w-3.5" />,
+                      destructive: true,
+                      onClick: () => toast.error("Item dihapus"),
+                    },
+                  ]}
+                />
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Combobox
+                  value={comboboxVal}
+                  onChange={setComboboxVal}
+                  placeholder="Pilih SKU Produk POS..."
+                  searchPlaceholder="Ketik untuk memfilter..."
+                  options={[
+                    { value: "pos-printer", label: "Thermal Receipt Printer 80mm (SKU-9921)" },
+                    { value: "pos-scanner", label: "Barcode Scanner 2D Wireless (SKU-8812)" },
+                    { value: "pos-drawer", label: "Cash Drawer Heavy Duty (SKU-7703)" },
+                    { value: "pos-paper", label: "Kertas Thermal Roll 80x80 (SKU-1002)" },
+                    { value: "pos-stand", label: "Tablet POS Stand Aluminum (SKU-4401)" },
+                  ]}
+                />
+                <div className="rounded-lg bg-zinc-100 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+                  Value Terpilih: <span className="font-bold text-emerald-500">{comboboxVal}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* useDebounce Live Demonstration */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">useDebounce Hook Demonstration</CardTitle>
+                <CardDescription>
+                  Mencegah spam network saat mengetik di pencarian. Debounce delay: 400ms.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Input
+                  value={liveSearch}
+                  onChange={(e) => setLiveSearch(e.target.value)}
+                  placeholder="Ketik cepat untuk menguji debounce..."
+                  leftIcon={<Search className="h-4 w-4" />}
+                />
+                <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+                  <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3 space-y-1">
+                    <span className="text-zinc-400">State Langsung:</span>
+                    <p className="font-bold text-zinc-900 dark:text-zinc-100 truncate">
+                      {liveSearch || "(kosong)"}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3 space-y-1">
+                    <span className="text-emerald-500">Debounced Value:</span>
+                    <p className="font-bold text-emerald-600 dark:text-emerald-400 truncate">
+                      {debouncedSearch || "(kosong)"}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  Query ke backend Go / database hanya akan dieksekusi saat user berhenti mengetik 400ms.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* 5. Custom Table Component */}
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Rows className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">4. Custom Table Component (Zero Raw HTML Table)</h2>
+            <h2 className="text-xl font-bold tracking-tight">5. Custom Table Component (Zero Raw HTML Table)</h2>
           </div>
 
           <Table>
@@ -287,37 +407,6 @@ export default function DesignSystemPage() {
             </TableBody>
           </Table>
         </section>
-
-        {/* 5. Surface Cards */}
-        <section className="gsap-fade-up space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
-            <Box className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">5. Card Surfaces (Matte Elevation)</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card surface="default">
-              <CardHeader>
-                <CardTitle className="text-base">Surface: Default</CardTitle>
-                <CardDescription>Untuk panel data standar, dashboard widget, dan list item.</CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card surface="glass">
-              <CardHeader>
-                <CardTitle className="text-base">Surface: Glass Overlay</CardTitle>
-                <CardDescription>Backdrop blur dengan border halus tanpa bayangan pekat.</CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card surface="interactive">
-              <CardHeader>
-                <CardTitle className="text-base">Surface: Interactive</CardTitle>
-                <CardDescription>Hover lift effect dan highlight border emerald saat kursor masuk.</CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-        </section>
       </main>
 
       {/* Interactive Pure Modal Demo */}
@@ -325,11 +414,11 @@ export default function DesignSystemPage() {
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         title="Pure In-House Modal"
-        description="Dibuat tanpa Radix UI atau headless lib eksternal. Mendukung tombol ESC dan backdrop click."
+        description="Dibuat tanpa Radix UI atau headless lib eksternal. Sudut terukur rapi tanpa kapsul/pill."
       >
         <div className="space-y-4 pt-2">
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Ini adalah bukti bahwa seluruh elemen UI dibuat custom: tombol, modal, select, checkbox, textarea, dan table tanpa tampilan bawaan browser yang kaku.
+            Seluruh kontrol (Combobox, Dropdown, Checkbox, Select, Debounce) dibuat dengan sudut geometris terukur (radius 12px), tanpa pill shape berlebihan.
           </p>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="secondary" onClick={() => setIsDialogOpen(false)}>

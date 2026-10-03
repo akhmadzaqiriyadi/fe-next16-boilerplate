@@ -28,7 +28,7 @@ export function Badge({ className, variant = "default", dot = false, children, .
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors select-none",
+        "inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-medium transition-colors select-none",
         variants[variant],
         className
       )}

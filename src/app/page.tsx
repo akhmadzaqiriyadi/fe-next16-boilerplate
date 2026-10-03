@@ -77,7 +77,7 @@ export default function Home() {
       {/* Hero Section */}
       <main className="mx-auto max-w-6xl px-6 py-16 sm:py-24 space-y-20">
         <div className="mx-auto max-w-3xl text-center space-y-6">
-          <div className="gsap-fade-up inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700 shadow-xs dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
+          <div className="gsap-fade-up inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-1 font-mono text-[11px] font-medium text-zinc-700 shadow-xs dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
             <Layers className="h-3.5 w-3.5 text-zinc-500" />
             Solid Matte Swiss Aesthetic • No AI-Slop • Zero Native HTML
           </div>
