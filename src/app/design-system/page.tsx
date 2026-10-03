@@ -11,6 +11,7 @@ import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Combobox } from "@/components/ui/combobox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DateRangePicker, type DateRange } from "@/components/ui/date-range-picker";
+import { TimePicker } from "@/components/ui/time-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -48,6 +49,7 @@ import {
   Filter,
   Loader,
   Calendar,
+  Clock,
 } from "lucide-react";
 
 export default function DesignSystemPage() {
@@ -64,6 +66,7 @@ export default function DesignSystemPage() {
     from: new Date(),
     to: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
+  const [selectedTime, setSelectedTime] = useState("14:30");
   const [liveSearch, setLiveSearch] = useState("");
   const debouncedSearch = useDebounce(liveSearch, 400);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -272,20 +275,20 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        {/* 4. Date Pickers & Range Selection */}
+        {/* 4. Date & Time Pickers */}
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Calendar className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">4. Date Picker & Range Selection (Zero Bug H-1 Protection)</h2>
+            <h2 className="text-xl font-bold tracking-tight">4. Date Picker, Range (H-1 Safe) & Time Picker</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Single Date Picker */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">Single Date Picker</CardTitle>
                 <CardDescription>
-                  Kalender floating kustom dengan navigasi bulan, nama hari Indonesia, dan zero native HTML.
+                  Kalender floating kustom dengan navigasi bulan dan zero native HTML.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -293,12 +296,12 @@ export default function DesignSystemPage() {
                   value={selectedDate}
                   onChange={(d) => {
                     setSelectedDate(d);
-                    if (d) toast.info(`Tanggal dipilih: ${d.toLocaleDateString("id-ID")}`);
+                    if (d) toast.info(`Tanggal: ${d.toLocaleDateString("id-ID")}`);
                   }}
-                  placeholder="Pilih tanggal reservasi..."
+                  placeholder="Pilih tanggal..."
                 />
                 <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
-                  Tanggal Terpilih: <span className="font-bold text-emerald-500">{selectedDate ? selectedDate.toLocaleDateString("id-ID", { dateStyle: "full" }) : "Belum ada"}</span>
+                  Tanggal: <span className="font-bold text-emerald-500">{selectedDate ? selectedDate.toLocaleDateString("id-ID", { dateStyle: "medium" }) : "-"}</span>
                 </div>
               </CardContent>
             </Card>
@@ -308,7 +311,7 @@ export default function DesignSystemPage() {
               <CardHeader>
                 <CardTitle className="text-base">Date Range Picker (H-1 Safe)</CardTitle>
                 <CardDescription>
-                  Proteksi anti-bug range terbalik: klik tanggal sebelum Start Date otomatis me-reset Start Date tanpa error minus.
+                  Proteksi anti-bug range: klik tgl sebelum start otomatis me-reset start date.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -317,14 +320,37 @@ export default function DesignSystemPage() {
                   onChange={(range) => {
                     setDateRange(range);
                     if (range.from && range.to) {
-                      toast.success("Rentang tanggal valid tersimpan");
+                      toast.success("Rentang tanggal valid");
                     }
                   }}
-                  placeholder="Pilih periode laporan..."
+                  placeholder="Pilih periode..."
                 />
-                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400 space-y-1">
+                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400 space-y-0.5">
                   <div>Dari: <span className="font-bold text-emerald-500">{dateRange.from ? dateRange.from.toLocaleDateString("id-ID") : "-"}</span></div>
-                  <div>Sampai: <span className="font-bold text-emerald-500">{dateRange.to ? dateRange.to.toLocaleDateString("id-ID") : "(Pilih tgl akhir...)"}</span></div>
+                  <div>Sampai: <span className="font-bold text-emerald-500">{dateRange.to ? dateRange.to.toLocaleDateString("id-ID") : "(tgl akhir...)"}</span></div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Time Picker */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Time Picker (24H Format)</CardTitle>
+                <CardDescription>
+                  Selector jam & menit presisi dengan tampilan digital clock dan quick presets.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <TimePicker
+                  value={selectedTime}
+                  onChange={(t) => {
+                    setSelectedTime(t);
+                    if (t) toast.info(`Jam dipilih: ${t} WIB`);
+                  }}
+                  placeholder="Pilih jam (JJ:MM)..."
+                />
+                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+                  Jam Terpilih: <span className="font-bold text-emerald-500">{selectedTime ? `${selectedTime} WIB` : "-"}</span>
                 </div>
               </CardContent>
             </Card>
