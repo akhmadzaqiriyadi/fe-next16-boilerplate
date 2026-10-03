@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProductCard } from "@/features/products/components/product-card";
 import type { Product } from "@/features/products/types";
@@ -70,6 +71,7 @@ export default function Home() {
                 GitHub
               </Button>
             </a>
+            <ThemeToggle />
           </div>
         </div>
       </header>

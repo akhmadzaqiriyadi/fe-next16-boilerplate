@@ -9,6 +9,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Combobox } from "@/components/ui/combobox";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   Table,
   TableBody,
@@ -41,7 +44,7 @@ import {
   Trash2,
   Share2,
   Filter,
-  CheckCircle,
+  Loader,
 } from "lucide-react";
 
 export default function DesignSystemPage() {
@@ -49,7 +52,8 @@ export default function DesignSystemPage() {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSwitchActive, setIsSwitchActive] = useState(true);
-  const [checkboxActive, setCheckboxActive] = useState(true);
+  const [checkbox1, setCheckbox1] = useState(true);
+  const [checkbox2, setCheckbox2] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("hardware");
   const [comboboxVal, setComboboxVal] = useState("pos-printer");
   const [liveSearch, setLiveSearch] = useState("");
@@ -90,9 +94,12 @@ export default function DesignSystemPage() {
             </span>
           </div>
 
-          <Badge variant="success" dot>
-            Zero-Dependency UI
-          </Badge>
+          <div className="flex items-center gap-3">
+            <Badge variant="success" dot>
+              Zero-Dependency UI
+            </Badge>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
@@ -106,8 +113,8 @@ export default function DesignSystemPage() {
             Design Tokens & Advanced Controls
           </h1>
           <p className="max-w-2xl text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Struktur geometris tegas (radius persegi halus, bukan kapsul/pill), palet solid matte, dropdown menu floating,
-            searchable combobox, dan optimasi input via hook useDebounce.
+            Struktur geometris tegas, palet solid matte, dropdown menu floating,
+            searchable combobox, theme toggle dark/light, skeleton, dan custom checkbox yang sepenuhnya interaktif.
           </p>
         </section>
 
@@ -182,7 +189,7 @@ export default function DesignSystemPage() {
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Sliders className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">3. Form Controls & Modal</h2>
+            <h2 className="text-xl font-bold tracking-tight">3. Form Controls & Interactive Checkbox</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -212,20 +219,26 @@ export default function DesignSystemPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">Checkbox & Interactive Controls</CardTitle>
-                <CardDescription>Custom checkbox dengan icon centang, toggle switch, dan dialog modal.</CardDescription>
+                <CardDescription>Custom checkbox interaktif (klik untuk mencoba centang!).</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex flex-col gap-3">
                   <Checkbox
                     id="tax-include"
-                    checked={checkboxActive}
-                    onCheckedChange={setCheckboxActive}
+                    checked={checkbox1}
+                    onCheckedChange={(val) => {
+                      setCheckbox1(val);
+                      toast.info(`PPN 11%: ${val ? "Diaktifkan" : "Dinonaktifkan"}`);
+                    }}
                     label="Termasuk PPN 11% Otomatis"
                   />
                   <Checkbox
                     id="print-auto"
-                    checked={false}
-                    onCheckedChange={() => {}}
+                    checked={checkbox2}
+                    onCheckedChange={(val) => {
+                      setCheckbox2(val);
+                      toast.info(`Cetak Otomatis: ${val ? "Aktif" : "Nonaktif"}`);
+                    }}
                     label="Cetak struk kasir otomatis setelah pembayaran"
                   />
                 </div>
@@ -359,11 +372,67 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        {/* 5. Custom Table Component */}
+        {/* 5. Skeleton & Loading Primitives */}
+        <section className="gsap-fade-up space-y-6">
+          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <Loader className="h-5 w-5 text-emerald-500" />
+            <h2 className="text-xl font-bold tracking-tight">5. Skeleton & Global Loading Components</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Card Skeleton Demo */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Skeleton Placeholders</CardTitle>
+                <CardDescription>Shimmering placeholder untuk asynchronous data fetch state.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <Skeleton className="h-10 w-10 rounded-xl" />
+                  <div className="space-y-1.5 flex-1">
+                    <Skeleton className="h-4 w-3/4 rounded-md" />
+                    <Skeleton className="h-3 w-1/2 rounded-md" />
+                  </div>
+                </div>
+                <div className="space-y-2 pt-2">
+                  <Skeleton className="h-20 w-full rounded-xl" />
+                  <div className="flex justify-between">
+                    <Skeleton className="h-3 w-1/4 rounded-md" />
+                    <Skeleton className="h-3 w-1/5 rounded-md" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Spinner Indicators */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Loading Spinner Components</CardTitle>
+                <CardDescription>Indikator proses latar belakang berbagai ukuran.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex flex-wrap items-center gap-6">
+                  <Spinner size="sm" label="Memuat..." />
+                  <Spinner size="md" label="Sinkronisasi POS..." />
+                  <Spinner size="lg" />
+                </div>
+                <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <p className="text-xs font-semibold">Status Sync Background</p>
+                    <p className="text-[11px] text-zinc-500">Mengecek koneksi ke backend Go</p>
+                  </div>
+                  <Spinner size="sm" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* 6. Custom Table Component */}
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Rows className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">5. Custom Table Component (Zero Raw HTML Table)</h2>
+            <h2 className="text-xl font-bold tracking-tight">6. Custom Table Component (Zero Raw HTML Table)</h2>
           </div>
 
           <Table>
@@ -418,7 +487,7 @@ export default function DesignSystemPage() {
       >
         <div className="space-y-4 pt-2">
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Seluruh kontrol (Combobox, Dropdown, Checkbox, Select, Debounce) dibuat dengan sudut geometris terukur (radius 12px), tanpa pill shape berlebihan.
+            Seluruh kontrol (Combobox, Dropdown, Checkbox, Select, Skeleton, Spinner) dibuat dengan sudut geometris terukur (radius 12px), tanpa pill shape berlebihan.
           </p>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="secondary" onClick={() => setIsDialogOpen(false)}>
