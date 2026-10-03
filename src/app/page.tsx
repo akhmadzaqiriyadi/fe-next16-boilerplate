@@ -19,6 +19,10 @@ import {
   FolderTree,
   Palette,
   Sparkles,
+  ShoppingCart,
+  LayoutDashboard,
+  Lock,
+  ExternalLink,
 } from "lucide-react";
 
 const sampleProduct: Product = {
@@ -51,33 +55,39 @@ export default function Home() {
               <span className="ml-2 text-xs text-zinc-400 font-mono">v16.3.8</span>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Link href="/design-system">
-              <Button variant="secondary" size="sm" className="gap-1.5 font-medium">
-                <Palette className="h-3.5 w-3.5 text-emerald-500" />
-                Design System
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link href="/dashboard" className="hidden sm:inline-flex">
+              <Button variant="ghost" size="sm" className="gap-1.5 font-medium">
+                <ShoppingCart className="h-3.5 w-3.5 text-emerald-500" />
+                Kasir
               </Button>
             </Link>
-            <Badge variant="success" dot className="py-1">
-              GSAP + Turbopack
-            </Badge>
-            <a
-              href="https://github.com/akhmadzaqiriyadi/fe-next16-boilerplate"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button variant="outline" size="sm" className="gap-1.5">
-                <GitBranch className="h-3.5 w-3.5" />
-                GitHub
+            <Link href="/admin" className="hidden sm:inline-flex">
+              <Button variant="ghost" size="sm" className="gap-1.5 font-medium">
+                <LayoutDashboard className="h-3.5 w-3.5 text-blue-500" />
+                Admin
               </Button>
-            </a>
+            </Link>
+            <Link href="/design-system">
+              <Button variant="secondary" size="sm" className="gap-1.5 font-medium">
+                <Palette className="h-3.5 w-3.5 text-zinc-500" />
+                <span className="hidden md:inline">Design System</span>
+                <span className="md:hidden">UI</span>
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button variant="outline" size="sm" className="gap-1.5">
+                <Lock className="h-3.5 w-3.5" />
+                Masuk
+              </Button>
+            </Link>
             <ThemeToggle />
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <main className="mx-auto max-w-6xl px-6 py-16 sm:py-24 space-y-20">
+      <main className="mx-auto max-w-6xl px-6 py-16 sm:py-24 space-y-24">
         <div className="mx-auto max-w-3xl text-center space-y-6">
           <div className="gsap-fade-up inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-1 font-mono text-[11px] font-medium text-zinc-700 shadow-xs dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
             <Layers className="h-3.5 w-3.5 text-zinc-500" />
@@ -90,22 +100,127 @@ export default function Home() {
             </span>
           </h1>
           <p className="gsap-fade-up text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto">
-            Arsitektur frontend modular bebas bloat, bebas gradien norak, ditenagai animasi presisi <strong className="font-semibold text-zinc-900 dark:text-zinc-100">GSAP</strong> dan <strong className="font-semibold text-zinc-900 dark:text-zinc-100">Bun</strong> runtime.
+            Arsitektur frontend modular bebas bloat, bebas gradien norak, ditenagai animasi presisi <strong className="font-semibold text-zinc-900 dark:text-zinc-100">GSAP</strong>, 23 komponen in-house, dan <strong className="font-semibold text-zinc-900 dark:text-zinc-100">Bun</strong> runtime.
           </p>
 
           <div className="gsap-fade-up flex flex-wrap items-center justify-center gap-3 pt-2">
-            <Link href="/design-system">
+            <Link href="/dashboard">
               <Button variant="accent" size="lg" className="gap-2 shadow-xs">
-                <Sparkles className="h-4 w-4" /> Living Design System
+                <ShoppingCart className="h-4 w-4" /> Buka Kasir POS
               </Button>
             </Link>
-            <a href="#structure">
+            <Link href="/admin">
               <Button variant="secondary" size="lg" className="gap-2">
-                Jelajahi Arsitektur <ArrowRight className="h-4 w-4" />
+                <LayoutDashboard className="h-4 w-4" /> Admin Control Hub
               </Button>
-            </a>
+            </Link>
+            <Link href="/design-system">
+              <Button variant="outline" size="lg" className="gap-2">
+                <Sparkles className="h-4 w-4" /> Design System
+              </Button>
+            </Link>
           </div>
         </div>
+
+        {/* Ready-to-Use App Suite Showcase */}
+        <section className="space-y-6">
+          <div className="text-center space-y-1">
+            <h2 className="text-2xl font-bold tracking-tight">Enterprise Ready-to-Use Suite</h2>
+            <p className="text-sm text-zinc-500">Aplikasi bisnis nyata yang dibangun dengan 100% komponen in-house dan tata letak presisi.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1: Kasir POS */}
+            <Card className="gsap-fade-up flex flex-col justify-between">
+              <CardHeader>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                    <ShoppingCart className="h-5 w-5" />
+                  </div>
+                  <Badge variant="success">Production Ready</Badge>
+                </div>
+                <CardTitle className="text-lg">POS Kasir Terminal</CardTitle>
+                <CardDescription>
+                  Workspace kasir retail split-view: katalog SKU pencarian cepat, kalkulasi pajak & diskon otomatis, dan modal pembayaran split tender (QRIS & Tunai).
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <Link href="/dashboard">
+                  <Button variant="outline" className="w-full justify-between group">
+                    <span>Akses Kasir POS</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Card 2: Admin Dashboard */}
+            <Card className="gsap-fade-up flex flex-col justify-between">
+              <CardHeader>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <LayoutDashboard className="h-5 w-5" />
+                  </div>
+                  <Badge variant="secondary">Enterprise</Badge>
+                </div>
+                <CardTitle className="text-lg">Admin Control Hub</CardTitle>
+                <CardDescription>
+                  Dashboard analitik dengan sidebar collapsible (240px↔68px), filter DateRangePicker terproteksi, slide-over drawer tambah produk, dan tabel audit transaksi.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <Link href="/admin">
+                  <Button variant="outline" className="w-full justify-between group">
+                    <span>Akses Admin Hub</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Card 3: Auth Suite */}
+            <Card className="gsap-fade-up flex flex-col justify-between">
+              <CardHeader>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-zinc-500/10 text-zinc-900 dark:text-zinc-100">
+                    <Lock className="h-5 w-5" />
+                  </div>
+                  <Badge variant="outline">Complete Flow</Badge>
+                </div>
+                <CardTitle className="text-lg">Auth & Identity Suite</CardTitle>
+                <CardDescription>
+                  Paket otentikasi lengkap yang simetris & dead-center: Login cepat, Register meter sandi 4-tier, Lupa Password pemulihan, dan input 6-digit OTP reaktif.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <Link href="/login">
+                    <Button variant="outline" size="sm" className="w-full text-xs">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button variant="outline" size="sm" className="w-full text-xs">
+                      Register
+                    </Button>
+                  </Link>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Link href="/forgot-password">
+                    <Button variant="ghost" size="sm" className="w-full text-xs text-zinc-500">
+                      Lupa Sandi
+                    </Button>
+                  </Link>
+                  <Link href="/otp">
+                    <Button variant="ghost" size="sm" className="w-full text-xs text-zinc-500">
+                      6-Digit OTP
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
         {/* Feature Cards Grid */}
         <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -166,7 +281,7 @@ export default function Home() {
               <ProductCard product={sampleProduct} />
             </div>
 
-            <div className="rounded-2xl border border-zinc-800 bg-[#121215] p-6 text-zinc-200 font-mono text-xs overflow-x-auto shadow-sm">
+            <div className="rounded-xl border border-zinc-800 bg-[#121215] p-6 text-zinc-200 font-mono text-xs overflow-x-auto shadow-sm">
               <div className="flex items-center justify-between pb-3 border-b border-zinc-800 text-zinc-400">
                 <span>📂 Project Structure (2026 Standard)</span>
                 <span>Turbopack</span>

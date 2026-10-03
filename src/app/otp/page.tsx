@@ -108,28 +108,29 @@ function OtpContent() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-col justify-between p-4 sm:p-6 antialiased">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-col antialiased">
       {/* Top Header */}
-      <header className="mx-auto w-full max-w-6xl flex items-center justify-between">
+      <header className="w-full max-w-6xl mx-auto flex items-center justify-between p-4 sm:p-6">
         <Link href="/login">
-          <Button variant="ghost" size="sm" className="gap-1.5 -ml-2 text-xs">
+          <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
             <ArrowLeft className="h-4 w-4" /> Batalkan
           </Button>
         </Link>
         <ThemeToggle />
       </header>
 
-      {/* Main Container */}
-      <main className="mx-auto w-full max-w-md py-8">
-        <div className="mb-6 text-center space-y-2">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-xs mb-1">
-            <ShieldCheck className="h-5 w-5" />
-          </div>
-          <div className="flex items-center justify-center gap-2">
-            <Badge variant="outline" className="font-mono text-[10px]">
-              VERIFIKASI DUA LANGKAH (2FA)
-            </Badge>
-          </div>
+      {/* Main Container (Dead Center) */}
+      <main className="flex-1 flex flex-col items-center justify-center px-4 py-8 sm:px-6">
+        <div className="w-full max-w-md">
+          <div className="mb-6 text-center space-y-2">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-xs mb-1">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <Badge variant="outline" className="font-mono text-[10px]">
+                VERIFIKASI DUA LANGKAH (2FA)
+              </Badge>
+            </div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
             Verifikasi Kode OTP
           </h1>
@@ -214,10 +215,11 @@ function OtpContent() {
             Ganti Email Lain
           </Link>
         </p>
+        </div>
       </main>
 
       {/* Bottom Footer */}
-      <footer className="mx-auto w-full max-w-6xl text-center py-2 text-[11px] text-zinc-400 font-mono">
+      <footer className="w-full text-center py-4 text-[11px] text-zinc-400 font-mono">
         Forge POS & Enterprise Inventory © 2026. Zero-Dependency Security.
       </footer>
     </div>

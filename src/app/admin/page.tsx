@@ -124,7 +124,7 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5">
-              <div className="w-56">
+              <div className="min-w-[240px] sm:w-72">
                 <DateRangePicker
                   value={dateRange}
                   onChange={(range) => {
