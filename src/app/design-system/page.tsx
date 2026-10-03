@@ -127,9 +127,10 @@ export default function DesignSystemPage() {
       <main className="mx-auto max-w-6xl px-6 py-12 space-y-16">
         {/* Intro */}
         <section className="gsap-fade-up space-y-4">
-          <Badge variant="outline" className="gap-1 font-mono">
-            No Pill Shapes • No AI-Slop • Zero Native HTML
-          </Badge>
+          <div className="inline-flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            23 In-House Primitives & Design Tokens
+          </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
             Design Tokens & Advanced Controls
           </h1>

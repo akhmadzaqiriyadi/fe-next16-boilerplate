@@ -89,9 +89,9 @@ export default function Home() {
       {/* Hero Section */}
       <main className="mx-auto max-w-6xl px-6 py-16 sm:py-24 space-y-24">
         <div className="mx-auto max-w-3xl text-center space-y-6">
-          <div className="gsap-fade-up inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-1 font-mono text-[11px] font-medium text-zinc-700 shadow-xs dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
-            <Layers className="h-3.5 w-3.5 text-zinc-500" />
-            Solid Matte Swiss Aesthetic • No AI-Slop • Zero Native HTML
+          <div className="gsap-fade-up inline-flex items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            Next.js 16.3.8 & React 19 Enterprise Foundation
           </div>
           <h1 className="gsap-fade-up text-4xl font-extrabold tracking-tight sm:text-6xl text-zinc-950 dark:text-white leading-[1.15]">
             Next.js 16 + React 19{" "}

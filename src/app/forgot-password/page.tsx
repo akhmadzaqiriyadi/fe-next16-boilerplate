@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { toast } from "sonner";
 import {
@@ -55,22 +54,17 @@ export default function ForgotPasswordPage() {
       {/* Main Form Container (Dead Center) */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-8 sm:px-6">
         <div className="w-full max-w-md">
-          <div className="mb-6 text-center space-y-2">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-xs mb-1">
-            <KeyRound className="h-5 w-5" />
+          <div className="mb-8 text-center space-y-2">
+            <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-xs mb-1">
+              <KeyRound className="h-5 w-5" />
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
+              Lupa Kata Sandi?
+            </h1>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Jangan khawatir, kami akan mengirimkan tautan pemulihan ke email Anda.
+            </p>
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <Badge variant="outline" className="font-mono text-[10px]">
-              PEMULIHAN KATA SANDI
-            </Badge>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
-            Lupa Kata Sandi?
-          </h1>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            Jangan khawatir, kami akan mengirimkan instruksi dan kode verifikasi ke email Anda.
-          </p>
-        </div>
 
         <Card>
           <CardHeader className="pb-4">

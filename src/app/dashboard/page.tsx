@@ -197,9 +197,9 @@ export default function UserDashboardPage() {
                 <CardTitle className="text-base flex items-center gap-2">
                   <ShoppingCart className="h-4 w-4 text-emerald-500" /> Keranjang Kasir
                 </CardTitle>
-                <Badge variant="outline" className="font-mono text-[10px]">
-                  {cart.length} Jenis Item
-                </Badge>
+                <span className="text-xs text-zinc-500 font-medium">
+                  {cart.length} item
+                </span>
               </div>
             </CardHeader>
 

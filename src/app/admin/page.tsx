@@ -232,9 +232,10 @@ export default function AdminDashboardPage() {
                 <CardTitle className="text-base">Aktivitas Transaksi Kasir Terkini</CardTitle>
                 <CardDescription>Daftar pembayaran yang baru saja diselesaikan di terminal.</CardDescription>
               </div>
-              <Badge variant="outline" className="font-mono text-[10px]">
-                AUTO-REFRESH: 5s
-              </Badge>
+              <div className="flex items-center gap-1.5 text-xs text-zinc-500">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-mono text-[11px]">Sync 5s</span>
+              </div>
             </CardHeader>
             <CardContent>
               <Table>
