@@ -15,6 +15,7 @@ import {
   CreditCard,
   Banknote,
   Plus,
+  Minus,
   ShieldCheck,
   Sparkles,
   ArrowRight,
@@ -222,19 +223,23 @@ export default function UserDashboardPage() {
                       <button
                         type="button"
                         onClick={() => handleUpdateQty(item.id, -1)}
-                        className="flex h-6 w-6 items-center justify-center rounded-[4px] border border-zinc-200 text-xs hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+                        title="Kurangi Jumlah"
+                        aria-label="Kurangi Jumlah"
+                        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-[4px] border border-zinc-200 text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                       >
-                        -
+                        <Minus className="h-3 w-3" />
                       </button>
-                      <span className="w-5 text-center font-mono text-xs font-bold">
+                      <span className="w-5 text-center font-mono text-xs font-bold text-zinc-900 dark:text-zinc-100">
                         {item.qty}
                       </span>
                       <button
                         type="button"
                         onClick={() => handleUpdateQty(item.id, 1)}
-                        className="flex h-6 w-6 items-center justify-center rounded-[4px] border border-zinc-200 text-xs hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+                        title="Tambah Jumlah"
+                        aria-label="Tambah Jumlah"
+                        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-[4px] border border-zinc-200 text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                       >
-                        +
+                        <Plus className="h-3 w-3" />
                       </button>
                     </div>
 
