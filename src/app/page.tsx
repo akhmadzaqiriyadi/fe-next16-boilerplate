@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +13,7 @@ import {
   GitBranch,
   Terminal,
   FolderTree,
+  Palette,
 } from "lucide-react";
 
 const sampleProduct: Product = {
@@ -40,12 +42,18 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/design-system">
+              <Button variant="secondary" size="sm" className="gap-1.5 font-medium">
+                <Palette className="h-3.5 w-3.5 text-emerald-500" />
+                Design System
+              </Button>
+            </Link>
             <Badge variant="success" className="gap-1.5 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Turbopack Ready
             </Badge>
             <a
-              href="https://github.com/akhmadzaqiriyadi"
+              href="https://github.com/akhmadzaqiriyadi/fe-next16-boilerplate"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -77,14 +85,14 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <a href="#structure">
-              <Button size="lg" className="gap-2 shadow-md">
-                Jelajahi Arsitektur <ArrowRight className="h-4 w-4" />
+            <Link href="/design-system">
+              <Button variant="glow" size="lg" className="gap-2 shadow-md">
+                <Palette className="h-4 w-4" /> Living Design System
               </Button>
-            </a>
-            <a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">
-              <Button variant="secondary" size="lg">
-                Dokumentasi Next.js 16
+            </Link>
+            <a href="#structure">
+              <Button variant="secondary" size="lg" className="gap-2">
+                Jelajahi Arsitektur <ArrowRight className="h-4 w-4" />
               </Button>
             </a>
           </div>

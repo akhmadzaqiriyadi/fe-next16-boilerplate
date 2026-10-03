@@ -27,7 +27,7 @@ export default function ErrorBoundary({
         {error.message || "An unexpected error occurred."}
       </p>
       <div className="mt-6 flex gap-3">
-        <Button onClick={() => reset()} variant="default">
+        <Button onClick={() => reset()} variant="primary">
           Coba Lagi
         </Button>
       </div>
