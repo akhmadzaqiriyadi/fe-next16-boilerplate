@@ -9,6 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Combobox } from "@/components/ui/combobox";
+import { DatePicker } from "@/components/ui/date-picker";
+import { DateRangePicker, type DateRange } from "@/components/ui/date-range-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -45,6 +47,7 @@ import {
   Share2,
   Filter,
   Loader,
+  Calendar,
 } from "lucide-react";
 
 export default function DesignSystemPage() {
@@ -56,6 +59,11 @@ export default function DesignSystemPage() {
   const [checkbox2, setCheckbox2] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("hardware");
   const [comboboxVal, setComboboxVal] = useState("pos-printer");
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: new Date(),
+    to: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  });
   const [liveSearch, setLiveSearch] = useState("");
   const debouncedSearch = useDebounce(liveSearch, 400);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -264,11 +272,70 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        {/* 4. Advanced Controls: Dropdown Menu, Combobox & Debounce */}
+        {/* 4. Date Pickers & Range Selection */}
+        <section className="gsap-fade-up space-y-6">
+          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <Calendar className="h-5 w-5 text-emerald-500" />
+            <h2 className="text-xl font-bold tracking-tight">4. Date Picker & Range Selection (Zero Bug H-1 Protection)</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Single Date Picker */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Single Date Picker</CardTitle>
+                <CardDescription>
+                  Kalender floating kustom dengan navigasi bulan, nama hari Indonesia, dan zero native HTML.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <DatePicker
+                  value={selectedDate}
+                  onChange={(d) => {
+                    setSelectedDate(d);
+                    if (d) toast.info(`Tanggal dipilih: ${d.toLocaleDateString("id-ID")}`);
+                  }}
+                  placeholder="Pilih tanggal reservasi..."
+                />
+                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+                  Tanggal Terpilih: <span className="font-bold text-emerald-500">{selectedDate ? selectedDate.toLocaleDateString("id-ID", { dateStyle: "full" }) : "Belum ada"}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Date Range Picker with H-1 Bug Protection */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Date Range Picker (H-1 Safe)</CardTitle>
+                <CardDescription>
+                  Proteksi anti-bug range terbalik: klik tanggal sebelum Start Date otomatis me-reset Start Date tanpa error minus.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <DateRangePicker
+                  value={dateRange}
+                  onChange={(range) => {
+                    setDateRange(range);
+                    if (range.from && range.to) {
+                      toast.success("Rentang tanggal valid tersimpan");
+                    }
+                  }}
+                  placeholder="Pilih periode laporan..."
+                />
+                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400 space-y-1">
+                  <div>Dari: <span className="font-bold text-emerald-500">{dateRange.from ? dateRange.from.toLocaleDateString("id-ID") : "-"}</span></div>
+                  <div>Sampai: <span className="font-bold text-emerald-500">{dateRange.to ? dateRange.to.toLocaleDateString("id-ID") : "(Pilih tgl akhir...)"}</span></div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* 5. Advanced Controls: Dropdown Menu, Combobox & Debounce */}
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Filter className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">4. Combobox, Dropdown Menu & Debounce Hook</h2>
+            <h2 className="text-xl font-bold tracking-tight">5. Combobox, Dropdown Menu & Debounce Hook</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -372,11 +439,11 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        {/* 5. Skeleton & Loading Primitives */}
+        {/* 6. Skeleton & Loading Primitives */}
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Loader className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">5. Skeleton & Global Loading Components</h2>
+            <h2 className="text-xl font-bold tracking-tight">6. Skeleton & Global Loading Components</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -428,11 +495,11 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        {/* 6. Custom Table Component */}
+        {/* 7. Custom Table Component */}
         <section className="gsap-fade-up space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <Rows className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-xl font-bold tracking-tight">6. Custom Table Component (Zero Raw HTML Table)</h2>
+            <h2 className="text-xl font-bold tracking-tight">7. Custom Table Component (Zero Raw HTML Table)</h2>
           </div>
 
           <Table>
@@ -487,7 +554,7 @@ export default function DesignSystemPage() {
       >
         <div className="space-y-4 pt-2">
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Seluruh kontrol (Combobox, Dropdown, Checkbox, Select, Skeleton, Spinner) dibuat dengan sudut geometris terukur (radius 12px), tanpa pill shape berlebihan.
+            Seluruh kontrol (DatePicker, DateRangePicker, Combobox, Dropdown, Checkbox, Select, Skeleton, Spinner) dibuat dengan sudut geometris terukur (rounded-md / rounded-[4px]), zero native HTML, dan proteksi anti-bug range H-1.
           </p>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="secondary" onClick={() => setIsDialogOpen(false)}>
