@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { usePresence } from "@/hooks/use-presence";
 
 export interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
@@ -19,6 +20,8 @@ export function Backdrop({
   children,
   ...props
 }: BackdropProps) {
+  const { mounted, visible } = usePresence(isOpen, 220);
+
   React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -30,7 +33,7 @@ export function Backdrop({
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!mounted) return null;
 
   const blurs = {
     none: "",
@@ -50,9 +53,10 @@ export function Backdrop({
       role="presentation"
       onClick={onClose}
       className={cn(
-        "animate-in fade-in fixed inset-0 z-50 cursor-pointer transition-opacity duration-300 select-none",
+        "fixed inset-0 z-50 cursor-pointer transition-all duration-200 ease-out select-none",
         blurs[blur],
         opacities[opacity],
+        visible ? "opacity-100" : "pointer-events-none opacity-0",
         className
       )}
       {...props}

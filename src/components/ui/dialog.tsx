@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { Backdrop } from "./backdrop";
+import { usePresence } from "@/hooks/use-presence";
 
 export interface DialogProps {
   isOpen: boolean;
@@ -24,6 +25,8 @@ export function Dialog({
   size = "md",
   className,
 }: DialogProps) {
+  const { mounted, visible } = usePresence(isOpen, 220);
+
   // Escape key handler
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,7 +38,7 @@ export function Dialog({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!mounted) return null;
 
   const sizes = {
     sm: "max-w-md",
@@ -46,18 +49,25 @@ export function Dialog({
 
   return (
     <>
-      {/* Reusable Backdrop */}
+      {/* Reusable Backdrop with sync exit */}
       <Backdrop isOpen={isOpen} onClose={onClose} blur="md" opacity="medium" />
 
       {/* Modal Container */}
-      <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div
+        className={cn(
+          "pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-200",
+          visible ? "opacity-100" : "opacity-0"
+        )}
+      >
         <div
           role="dialog"
           aria-modal="true"
           className={cn(
-            "pointer-events-auto relative w-full rounded-xl border border-zinc-200/80 bg-white p-6 shadow-2xl transition-all duration-200",
+            "pointer-events-auto relative w-full rounded-xl border border-zinc-200/80 bg-white p-6 shadow-2xl transition-all duration-200 ease-out select-none",
             "dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl",
-            "animate-in fade-in zoom-in-95 ease-out",
+            visible
+              ? "translate-y-0 scale-100 opacity-100 ease-out"
+              : "translate-y-2 scale-95 opacity-0 ease-in",
             sizes[size],
             className
           )}
@@ -76,7 +86,7 @@ export function Dialog({
           {(title || description) && (
             <div className="mb-4 space-y-1.5 pr-8">
               {title && (
-                <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                <h2 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-zinc-50">
                   {title}
                 </h2>
               )}

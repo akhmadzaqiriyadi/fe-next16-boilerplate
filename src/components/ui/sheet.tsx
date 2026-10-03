@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { Backdrop } from "./backdrop";
+import { usePresence } from "@/hooks/use-presence";
 
 export interface SheetProps {
   isOpen: boolean;
@@ -26,6 +27,8 @@ export function Sheet({
   size = "md",
   className,
 }: SheetProps) {
+  const { mounted, visible } = usePresence(isOpen, 260);
+
   // Escape key listener
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -37,13 +40,25 @@ export function Sheet({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!mounted) return null;
 
-  const sideAnimations = {
-    right: "right-0 top-0 bottom-0 animate-in slide-in-from-right duration-300 border-l",
-    left: "left-0 top-0 bottom-0 animate-in slide-in-from-left duration-300 border-r",
-    top: "top-0 left-0 right-0 animate-in slide-in-from-top duration-300 border-b",
-    bottom: "bottom-0 left-0 right-0 animate-in slide-in-from-bottom duration-300 border-t",
+  const sideClasses = {
+    right: cn(
+      "right-0 top-0 bottom-0 border-l",
+      visible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
+    ),
+    left: cn(
+      "left-0 top-0 bottom-0 border-r",
+      visible ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
+    ),
+    top: cn(
+      "top-0 left-0 right-0 border-b",
+      visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+    ),
+    bottom: cn(
+      "bottom-0 left-0 right-0 border-t",
+      visible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+    ),
   };
 
   const horizontalSizes = {
@@ -73,9 +88,9 @@ export function Sheet({
         role="dialog"
         aria-modal="true"
         className={cn(
-          "fixed z-50 flex flex-col bg-white shadow-2xl transition-all",
+          "fixed z-50 flex flex-col bg-white shadow-2xl transition-all duration-250 ease-out select-none",
           "border-zinc-200/80 dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl",
-          sideAnimations[side],
+          sideClasses[side],
           sizeClass,
           className
         )}
@@ -84,7 +99,7 @@ export function Sheet({
         <div className="flex items-center justify-between border-b border-zinc-200/80 p-5 dark:border-zinc-800/80">
           <div className="space-y-1 pr-6">
             {title && (
-              <h2 className="text-base font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+              <h2 className="text-base font-bold tracking-tight text-zinc-950 dark:text-zinc-50">
                 {title}
               </h2>
             )}
