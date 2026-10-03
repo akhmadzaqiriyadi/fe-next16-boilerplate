@@ -105,9 +105,14 @@ export function Sidebar({
       )}
     >
       {/* Brand Header */}
-      <div className="flex h-16 items-center justify-between border-b border-zinc-200/80 px-4 dark:border-zinc-800/80">
+      <div
+        className={cn(
+          "relative flex h-16 items-center border-b border-zinc-200/80 dark:border-zinc-800/80",
+          isCollapsed ? "justify-center px-0" : "justify-between px-4"
+        )}
+      >
         <div className="flex items-center gap-2.5 overflow-hidden">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-zinc-900 text-xs font-bold text-white shadow-xs dark:bg-emerald-500 dark:text-zinc-950">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-900 text-sm font-bold text-white shadow-xs dark:bg-emerald-500 dark:text-zinc-950">
             {brandLogo || "F"}
           </div>
           {!isCollapsed && (
@@ -117,12 +122,12 @@ export function Sidebar({
           )}
         </div>
 
-        {/* Collapse Toggle Button */}
+        {/* Floating Border Collapse Toggle Button */}
         <button
           type="button"
           onClick={toggleCollapse}
           title={isCollapsed ? "Buka Sidebar" : "Ciutkan Sidebar"}
-          className="flex h-6 w-6 items-center justify-center rounded-md border border-zinc-200 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:border-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
+          className="absolute top-5 -right-3 z-30 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-500 shadow-xs transition-all hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
         >
           {isCollapsed ? (
             <ChevronRight className="h-3.5 w-3.5" />
@@ -133,7 +138,7 @@ export function Sidebar({
       </div>
 
       {/* Nav List */}
-      <div className="flex-1 space-y-6 overflow-y-auto px-3 py-4">
+      <div className={cn("flex-1 space-y-6 overflow-y-auto py-4", isCollapsed ? "px-2" : "px-3")}>
         {defaultSections.map((sec, secIdx) => (
           <div key={secIdx} className="space-y-1">
             {!isCollapsed && sec.title && (
@@ -153,7 +158,8 @@ export function Sidebar({
                   }}
                   title={isCollapsed ? item.label : undefined}
                   className={cn(
-                    "group flex w-full cursor-pointer items-center gap-3 rounded-md px-2.5 py-2 text-left text-xs font-medium transition-colors select-none",
+                    "group flex cursor-pointer items-center rounded-lg text-left text-xs font-medium transition-colors select-none",
+                    isCollapsed ? "mx-auto h-10 w-10 justify-center p-0" : "w-full gap-3 px-3 py-2",
                     isActive
                       ? "bg-zinc-900 font-semibold text-white shadow-xs dark:bg-emerald-500/15 dark:text-emerald-400"
                       : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
@@ -161,7 +167,7 @@ export function Sidebar({
                 >
                   <span
                     className={cn(
-                      "shrink-0",
+                      "flex shrink-0 items-center justify-center",
                       isActive
                         ? "text-white dark:text-emerald-400"
                         : "text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-zinc-200"
@@ -194,8 +200,18 @@ export function Sidebar({
       </div>
 
       {/* User Footer Profile */}
-      <div className="border-t border-zinc-200/80 p-3 dark:border-zinc-800/80">
-        <div className="flex items-center gap-2.5 rounded-md p-1.5 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900">
+      <div
+        className={cn(
+          "border-t border-zinc-200/80 dark:border-zinc-800/80",
+          isCollapsed ? "p-2" : "p-3"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center rounded-lg transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900",
+            isCollapsed ? "mx-auto h-10 w-10 justify-center p-0" : "gap-2.5 p-1.5"
+          )}
+        >
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-zinc-200 text-xs font-bold text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
             {user.name.slice(0, 2).toUpperCase()}
           </div>
