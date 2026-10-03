@@ -71,7 +71,7 @@ export function Combobox({
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         className={cn(
-          "flex h-10 w-full items-center justify-between rounded-xl border bg-white px-3.5 text-sm transition-all duration-200 cursor-pointer select-none",
+          "flex h-10 w-full items-center justify-between rounded-md border bg-white px-3.5 text-sm transition-all duration-200 cursor-pointer select-none",
           "border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-100",
           "focus-visible:border-emerald-500/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20",
           isOpen && "border-emerald-500/80 ring-2 ring-emerald-500/20"
@@ -85,7 +85,7 @@ export function Combobox({
 
       {/* Floating Popover */}
       {isOpen && (
-        <div className="absolute z-50 mt-1.5 w-full rounded-xl border border-zinc-200/80 bg-white p-1.5 shadow-xl backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl animate-in fade-in zoom-in-95">
+        <div className="absolute z-50 mt-1.5 w-full rounded-lg border border-zinc-200/80 bg-white p-1.5 shadow-xl backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl animate-in fade-in zoom-in-95">
           {/* Search Field */}
           <div className="relative mb-1.5 flex items-center border-b border-zinc-200/70 pb-1.5 dark:border-zinc-800/70">
             <Search className="absolute left-2.5 h-3.5 w-3.5 text-zinc-400" />

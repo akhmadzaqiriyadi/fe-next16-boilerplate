@@ -16,7 +16,7 @@ export function Card({ className, surface = "default", ...props }: CardProps) {
   return (
     <div
       className={cn(
-        "rounded-2xl p-6 transition-all duration-200",
+        "rounded-xl p-6 transition-all duration-200",
         surfaces[surface],
         className
       )}

@@ -13,7 +13,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           rows={rows}
           className={cn(
-            "w-full rounded-xl border bg-white p-3.5 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all duration-200 resize-y",
+            "w-full rounded-md border bg-white p-3.5 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all duration-200 resize-y",
             "border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-100 dark:placeholder:text-zinc-600",
             "focus:border-emerald-500/80 focus:outline-none focus:ring-2 focus:ring-emerald-500/20",
             "disabled:cursor-not-allowed disabled:opacity-50",

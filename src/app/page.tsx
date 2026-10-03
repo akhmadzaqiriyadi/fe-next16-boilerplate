@@ -43,7 +43,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 bg-white/80 backdrop-blur-md dark:border-zinc-800/80 dark:bg-[#09090b]/80">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-xs">
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-xs">
               <Zap className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -111,7 +111,7 @@ export default function Home() {
         <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <Card className="gsap-fade-up">
             <CardHeader>
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
                 <FolderTree className="h-5 w-5" />
               </div>
               <CardTitle>Feature-Sliced Modules</CardTitle>
@@ -123,7 +123,7 @@ export default function Home() {
 
           <Card className="gsap-fade-up">
             <CardHeader>
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
                 <Server className="h-5 w-5" />
               </div>
               <CardTitle>Next.js 16 Server Actions</CardTitle>
@@ -135,7 +135,7 @@ export default function Home() {
 
           <Card className="gsap-fade-up">
             <CardHeader>
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white mb-2">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <CardTitle>Strict Zod Env & GSAP</CardTitle>

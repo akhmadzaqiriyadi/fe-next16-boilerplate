@@ -127,32 +127,32 @@ export default function DesignSystemPage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-[#09090b] border border-zinc-800 shadow-xs" />
+              <div className="h-16 rounded-md bg-[#09090b] border border-zinc-800 shadow-xs" />
               <p className="text-xs font-semibold">Obsidian Canvas</p>
               <p className="text-[11px] font-mono text-zinc-400">#09090b</p>
             </div>
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-[#121215] border border-zinc-800 shadow-xs" />
+              <div className="h-16 rounded-md bg-[#121215] border border-zinc-800 shadow-xs" />
               <p className="text-xs font-semibold">Obsidian Surface</p>
               <p className="text-[11px] font-mono text-zinc-400">#121215</p>
             </div>
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-[#10b981] shadow-xs" />
+              <div className="h-16 rounded-md bg-[#10b981] shadow-xs" />
               <p className="text-xs font-semibold">Solid Emerald</p>
               <p className="text-[11px] font-mono text-zinc-400">#10b981</p>
             </div>
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-[#38bdf8] shadow-xs" />
+              <div className="h-16 rounded-md bg-[#38bdf8] shadow-xs" />
               <p className="text-xs font-semibold">Electric Cyan</p>
               <p className="text-[11px] font-mono text-zinc-400">#38bdf8</p>
             </div>
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-[#fbbf24] shadow-xs" />
+              <div className="h-16 rounded-md bg-[#fbbf24] shadow-xs" />
               <p className="text-xs font-semibold">Warm Amber</p>
               <p className="text-[11px] font-mono text-zinc-400">#fbbf24</p>
             </div>
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-[#fb7185] shadow-xs" />
+              <div className="h-16 rounded-md bg-[#fb7185] shadow-xs" />
               <p className="text-xs font-semibold">Rose Danger</p>
               <p className="text-[11px] font-mono text-zinc-400">#fb7185</p>
             </div>
@@ -329,7 +329,7 @@ export default function DesignSystemPage() {
                     { value: "pos-stand", label: "Tablet POS Stand Aluminum (SKU-4401)" },
                   ]}
                 />
-                <div className="rounded-lg bg-zinc-100 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
                   Value Terpilih: <span className="font-bold text-emerald-500">{comboboxVal}</span>
                 </div>
               </CardContent>
@@ -388,14 +388,14 @@ export default function DesignSystemPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <Skeleton className="h-10 w-10 rounded-xl" />
+                  <Skeleton className="h-10 w-10 rounded-md" />
                   <div className="space-y-1.5 flex-1">
                     <Skeleton className="h-4 w-3/4 rounded-md" />
                     <Skeleton className="h-3 w-1/2 rounded-md" />
                   </div>
                 </div>
                 <div className="space-y-2 pt-2">
-                  <Skeleton className="h-20 w-full rounded-xl" />
+                  <Skeleton className="h-20 w-full rounded-md" />
                   <div className="flex justify-between">
                     <Skeleton className="h-3 w-1/4 rounded-md" />
                     <Skeleton className="h-3 w-1/5 rounded-md" />
@@ -416,7 +416,7 @@ export default function DesignSystemPage() {
                   <Spinner size="md" label="Sinkronisasi POS..." />
                   <Spinner size="lg" />
                 </div>
-                <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+                <div className="rounded-md border border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                   <div className="space-y-0.5">
                     <p className="text-xs font-semibold">Status Sync Background</p>
                     <p className="text-[11px] text-zinc-500">Mengecek koneksi ke backend Go</p>

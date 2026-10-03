@@ -58,7 +58,7 @@ export function DropdownMenu({
       {isOpen && (
         <div
           className={cn(
-            "absolute z-50 mt-2 min-w-[200px] rounded-xl border border-zinc-200/80 bg-white p-1.5 shadow-xl backdrop-blur-md transition-all animate-in fade-in zoom-in-95",
+            "absolute z-50 mt-2 min-w-[200px] rounded-lg border border-zinc-200/80 bg-white p-1.5 shadow-xl backdrop-blur-md transition-all animate-in fade-in zoom-in-95",
             "dark:border-zinc-800/80 dark:bg-[#121215] dark:shadow-2xl",
             align === "right" ? "right-0" : "left-0",
             className
@@ -83,7 +83,7 @@ export function DropdownMenu({
                   setIsOpen(false);
                 }}
                 className={cn(
-                  "flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors select-none text-left cursor-pointer",
+                  "flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors select-none text-left cursor-pointer",
                   item.destructive
                     ? "text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
                     : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800/60 dark:hover:text-white",
