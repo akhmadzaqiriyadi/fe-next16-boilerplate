@@ -16,11 +16,15 @@ import {
   Banknote,
   Plus,
   Minus,
+  Trash2,
+  Printer,
+  CheckCircle2,
   ShieldCheck,
   Sparkles,
   ArrowRight,
   LogOut,
   Receipt,
+  Tag,
 } from "lucide-react";
 
 interface CartItem {
@@ -28,6 +32,41 @@ interface CartItem {
   name: string;
   price: number;
   qty: number;
+}
+
+interface CompletedReceipt {
+  invoiceId: string;
+  items: CartItem[];
+  subtotal: number;
+  discount: number;
+  tax: number;
+  total: number;
+  paymentMethod: "qris" | "cash" | "debit";
+  timestamp: string;
+}
+
+function createReceipt(
+  cart: CartItem[],
+  subtotal: number,
+  discount: number,
+  tax: number,
+  total: number,
+  paymentMethod: "qris" | "cash" | "debit"
+): CompletedReceipt {
+  return {
+    invoiceId: `INV-${Date.now().toString().slice(-6)}`,
+    items: [...cart],
+    subtotal,
+    discount,
+    tax,
+    total,
+    paymentMethod,
+    timestamp: new Date().toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }),
+  };
 }
 
 export default function UserDashboardPage() {
@@ -38,6 +77,8 @@ export default function UserDashboardPage() {
   const [selectedSku, setSelectedSku] = React.useState("");
   const [isCheckoutOpen, setIsCheckoutOpen] = React.useState(false);
   const [paymentMethod, setPaymentMethod] = React.useState<"qris" | "cash" | "debit">("qris");
+  const [discountPercent, setDiscountPercent] = React.useState<number>(0);
+  const [completedReceipt, setCompletedReceipt] = React.useState<CompletedReceipt | null>(null);
 
   const skuCatalog = [
     { value: "pos-printer", label: "Thermal Receipt Printer 80mm", price: 850000 },
@@ -79,16 +120,38 @@ export default function UserDashboardPage() {
     );
   };
 
+  const handleRemoveItem = (id: string) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+    toast.info("Item Dihapus dari Keranjang");
+  };
+
+  const handleClearCart = () => {
+    if (cart.length === 0) return;
+    setCart([]);
+    setDiscountPercent(0);
+    toast.info("Keranjang Telah Dikosongkan");
+  };
+
+  // Calculations
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const tax = Math.round(subtotal * 0.11);
-  const total = subtotal + tax;
+  const discountAmount = Math.round((subtotal * discountPercent) / 100);
+  const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
+  const tax = Math.round(subtotalAfterDiscount * 0.11);
+  const total = subtotalAfterDiscount + tax;
 
   const handleCompletePayment = () => {
-    setIsCheckoutOpen(false);
+    const receiptData = createReceipt(cart, subtotal, discountAmount, tax, total, paymentMethod);
+
+    setCompletedReceipt(receiptData);
     setCart([]);
+    setDiscountPercent(0);
     toast.success("Pembayaran Berhasil Diterima!", {
-      description: `Struk transaksi sebesar Rp ${total.toLocaleString("id-ID")} dicetak.`,
+      description: `Invoice #${receiptData.invoiceId} sebesar Rp ${receiptData.total.toLocaleString("id-ID")} berhasil dibukukan.`,
     });
+  };
+
+  const handlePrintReceipt = () => {
+    window.print();
   };
 
   return (
@@ -163,7 +226,7 @@ export default function UserDashboardPage() {
                   key={product.value}
                   type="button"
                   onClick={() => handleAddSku(product.value)}
-                  className="group flex flex-col justify-between rounded-xl border border-zinc-200/80 bg-white p-3.5 text-left transition-all hover:border-emerald-500/50 hover:bg-zinc-50 dark:border-zinc-800/80 dark:bg-[#121215] dark:hover:bg-zinc-900/80"
+                  className="group flex cursor-pointer flex-col justify-between rounded-xl border border-zinc-200/80 bg-white p-3.5 text-left transition-all hover:border-emerald-500/50 hover:bg-zinc-50 dark:border-zinc-800/80 dark:bg-[#121215] dark:hover:bg-zinc-900/80"
                 >
                   <div>
                     <p className="text-xs font-semibold text-zinc-900 transition-colors group-hover:text-emerald-500 dark:text-zinc-100">
@@ -195,12 +258,26 @@ export default function UserDashboardPage() {
                 <CardTitle className="flex items-center gap-2 text-base">
                   <ShoppingCart className="h-4 w-4 text-emerald-500" /> Keranjang Kasir
                 </CardTitle>
-                <span className="text-xs font-medium text-zinc-500">{cart.length} item</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="font-mono text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                    {cart.length} item
+                  </span>
+                  {cart.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={handleClearCart}
+                      title="Kosongkan Keranjang"
+                      className="cursor-pointer text-[11px] font-medium text-zinc-400 transition-colors hover:text-red-500"
+                    >
+                      Kosongkan
+                    </button>
+                  )}
+                </div>
               </div>
             </CardHeader>
 
             {/* Cart Items List */}
-            <CardContent className="max-h-96 flex-1 divide-y divide-zinc-100 overflow-y-auto p-4 dark:divide-zinc-800/60">
+            <CardContent className="max-h-80 flex-1 divide-y divide-zinc-100 overflow-y-auto p-4 dark:divide-zinc-800/60">
               {cart.length === 0 ? (
                 <div className="py-12 text-center text-zinc-400">
                   <ShoppingCart className="mx-auto mb-2 h-8 w-8 opacity-30" />
@@ -209,16 +286,17 @@ export default function UserDashboardPage() {
                 </div>
               ) : (
                 cart.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between gap-3 py-3">
+                  <div key={item.id} className="group flex items-center justify-between gap-3 py-3">
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-xs font-semibold text-zinc-900 dark:text-zinc-100">
                         {item.name}
                       </p>
-                      <p className="font-mono text-[11px] text-zinc-400">
+                      <p className="font-mono text-[11px] text-zinc-400 tabular-nums">
                         Rp {item.price.toLocaleString("id-ID")} x {item.qty}
                       </p>
                     </div>
 
+                    {/* Centered Minus & Plus Controls */}
                     <div className="flex shrink-0 items-center gap-1.5">
                       <button
                         type="button"
@@ -229,7 +307,7 @@ export default function UserDashboardPage() {
                       >
                         <Minus className="h-3 w-3" />
                       </button>
-                      <span className="w-5 text-center font-mono text-xs font-bold text-zinc-900 dark:text-zinc-100">
+                      <span className="w-5 text-center font-mono text-xs font-bold text-zinc-900 tabular-nums dark:text-zinc-100">
                         {item.qty}
                       </span>
                       <button
@@ -243,30 +321,81 @@ export default function UserDashboardPage() {
                       </button>
                     </div>
 
+                    {/* Item Total */}
                     <div className="shrink-0 text-right">
-                      <p className="font-mono text-xs font-bold">
+                      <p className="font-mono text-xs font-bold tabular-nums">
                         Rp {(item.price * item.qty).toLocaleString("id-ID")}
                       </p>
                     </div>
+
+                    {/* Delete Item Trash Button */}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveItem(item.id)}
+                      title="Hapus Produk"
+                      aria-label="Hapus Produk"
+                      className="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-[4px] text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
                   </div>
                 ))
               )}
             </CardContent>
 
-            {/* Calculations & Checkout Button */}
-            <div className="space-y-3 border-t border-zinc-200/80 bg-zinc-50/50 p-4 dark:border-zinc-800/80 dark:bg-zinc-900/30">
+            {/* Calculations & Quick Discount */}
+            <div className="space-y-3.5 border-t border-zinc-200/80 bg-zinc-50/50 p-4 dark:border-zinc-800/80 dark:bg-zinc-900/30">
+              {/* Quick Discount Selector */}
+              {cart.length > 0 && (
+                <div className="space-y-1.5 pb-1">
+                  <div className="flex items-center justify-between text-[11px] text-zinc-500">
+                    <span className="flex items-center gap-1 font-medium">
+                      <Tag className="h-3 w-3 text-emerald-500" /> Diskon Transaksi:
+                    </span>
+                    <span className="font-mono">{discountPercent}%</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-1.5">
+                    {[0, 5, 10, 15].map((pct) => (
+                      <button
+                        key={pct}
+                        type="button"
+                        onClick={() => setDiscountPercent(pct)}
+                        className={`cursor-pointer rounded-[4px] border py-1 text-center font-mono text-[11px] font-semibold transition-all ${
+                          discountPercent === pct
+                            ? "border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                        }`}
+                      >
+                        {pct === 0 ? "0%" : `${pct}%`}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Price Breakdown */}
               <div className="space-y-1.5 text-xs">
                 <div className="flex justify-between text-zinc-500">
                   <span>Subtotal</span>
-                  <span className="font-mono">Rp {subtotal.toLocaleString("id-ID")}</span>
+                  <span className="font-mono tabular-nums">
+                    Rp {subtotal.toLocaleString("id-ID")}
+                  </span>
                 </div>
+                {discountAmount > 0 && (
+                  <div className="flex justify-between font-medium text-emerald-600 dark:text-emerald-400">
+                    <span>Potongan Diskon ({discountPercent}%)</span>
+                    <span className="font-mono tabular-nums">
+                      - Rp {discountAmount.toLocaleString("id-ID")}
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between text-zinc-500">
                   <span>PPN 11% (Otomatis)</span>
-                  <span className="font-mono">Rp {tax.toLocaleString("id-ID")}</span>
+                  <span className="font-mono tabular-nums">Rp {tax.toLocaleString("id-ID")}</span>
                 </div>
                 <div className="flex justify-between border-t border-zinc-200 pt-2 text-sm font-bold text-zinc-900 dark:border-zinc-800 dark:text-white">
                   <span>Total Tagihan</span>
-                  <span className="font-mono text-emerald-600 dark:text-emerald-400">
+                  <span className="font-mono text-emerald-600 tabular-nums dark:text-emerald-400">
                     Rp {total.toLocaleString("id-ID")}
                   </span>
                 </div>
@@ -274,7 +403,7 @@ export default function UserDashboardPage() {
 
               <Button
                 variant="accent"
-                className="w-full gap-2 text-sm font-bold"
+                className="w-full gap-2 text-sm font-bold shadow-xs"
                 disabled={cart.length === 0}
                 onClick={() => setIsCheckoutOpen(true)}
               >
@@ -297,7 +426,7 @@ export default function UserDashboardPage() {
             <button
               type="button"
               onClick={() => setPaymentMethod("qris")}
-              className={`rounded-lg border p-3 text-center transition-all ${
+              className={`cursor-pointer rounded-lg border p-3 text-center transition-all ${
                 paymentMethod === "qris"
                   ? "border-emerald-500 bg-emerald-500/10 font-bold text-emerald-700 dark:text-emerald-400"
                   : "border-zinc-200 text-zinc-600 dark:border-zinc-800 dark:text-zinc-400"
@@ -310,7 +439,7 @@ export default function UserDashboardPage() {
             <button
               type="button"
               onClick={() => setPaymentMethod("cash")}
-              className={`rounded-lg border p-3 text-center transition-all ${
+              className={`cursor-pointer rounded-lg border p-3 text-center transition-all ${
                 paymentMethod === "cash"
                   ? "border-emerald-500 bg-emerald-500/10 font-bold text-emerald-700 dark:text-emerald-400"
                   : "border-zinc-200 text-zinc-600 dark:border-zinc-800 dark:text-zinc-400"
@@ -323,7 +452,7 @@ export default function UserDashboardPage() {
             <button
               type="button"
               onClick={() => setPaymentMethod("debit")}
-              className={`rounded-lg border p-3 text-center transition-all ${
+              className={`cursor-pointer rounded-lg border p-3 text-center transition-all ${
                 paymentMethod === "debit"
                   ? "border-emerald-500 bg-emerald-500/10 font-bold text-emerald-700 dark:text-emerald-400"
                   : "border-zinc-200 text-zinc-600 dark:border-zinc-800 dark:text-zinc-400"
@@ -366,6 +495,101 @@ export default function UserDashboardPage() {
             </Button>
           </div>
         </div>
+      </Dialog>
+
+      {/* Printable Thermal Receipt Dialog */}
+      <Dialog
+        isOpen={!!completedReceipt}
+        onClose={() => setCompletedReceipt(null)}
+        title="Bukti Transaksi Pembayaran"
+        description="Transaksi selesai dan dicatat dalam jurnal pembukuan."
+        size="sm"
+      >
+        {completedReceipt && (
+          <div className="space-y-4 pt-2">
+            {/* Thermal Receipt Paper Layout */}
+            <div className="rounded-lg border border-dashed border-zinc-300 bg-zinc-50 p-5 font-mono text-xs text-zinc-800 shadow-inner dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200">
+              <div className="border-b border-dashed border-zinc-300 pb-3 text-center dark:border-zinc-700">
+                <p className="text-sm font-bold tracking-wider">FORGE POS SYSTEM</p>
+                <p className="text-[11px] text-zinc-500">Terminal 01 • Shift 1</p>
+                <p className="mt-1 text-[10px] text-zinc-400">
+                  {completedReceipt.invoiceId} • {completedReceipt.timestamp}
+                </p>
+              </div>
+
+              <div className="space-y-2 py-3">
+                {completedReceipt.items.map((it, idx) => (
+                  <div key={idx} className="flex justify-between text-[11px]">
+                    <span className="truncate pr-2">
+                      {it.name} x{it.qty}
+                    </span>
+                    <span className="shrink-0 font-bold tabular-nums">
+                      Rp {(it.price * it.qty).toLocaleString("id-ID")}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-1 border-t border-dashed border-zinc-300 pt-3 text-[11px] dark:border-zinc-700">
+                <div className="flex justify-between text-zinc-500">
+                  <span>Subtotal</span>
+                  <span className="tabular-nums">
+                    Rp {completedReceipt.subtotal.toLocaleString("id-ID")}
+                  </span>
+                </div>
+                {completedReceipt.discount > 0 && (
+                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
+                    <span>Diskon</span>
+                    <span className="tabular-nums">
+                      - Rp {completedReceipt.discount.toLocaleString("id-ID")}
+                    </span>
+                  </div>
+                )}
+                <div className="flex justify-between text-zinc-500">
+                  <span>PPN 11%</span>
+                  <span className="tabular-nums">
+                    Rp {completedReceipt.tax.toLocaleString("id-ID")}
+                  </span>
+                </div>
+                <div className="flex justify-between border-t border-zinc-200 pt-1.5 text-xs font-bold text-zinc-950 dark:border-zinc-800 dark:text-white">
+                  <span>TOTAL BAYAR</span>
+                  <span className="text-emerald-600 tabular-nums dark:text-emerald-400">
+                    Rp {completedReceipt.total.toLocaleString("id-ID")}
+                  </span>
+                </div>
+                <div className="flex justify-between pt-1 text-[10px] text-zinc-400">
+                  <span>METODE</span>
+                  <span className="font-bold uppercase">{completedReceipt.paymentMethod}</span>
+                </div>
+              </div>
+
+              <div className="mt-4 border-t border-dashed border-zinc-300 pt-3 text-center text-[10px] text-zinc-400 dark:border-zinc-700">
+                <p>Terima Kasih Atas Kunjungan Anda</p>
+                <p>Barang yang sudah dibeli tidak dapat ditukar</p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-between gap-2 pt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handlePrintReceipt}
+                className="gap-1.5 text-xs"
+              >
+                <Printer className="h-3.5 w-3.5" /> Cetak Thermal (Print)
+              </Button>
+              <Button
+                variant="accent"
+                size="sm"
+                onClick={() => setCompletedReceipt(null)}
+                className="gap-1.5 text-xs font-bold"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5" /> Transaksi Baru
+              </Button>
+            </div>
+          </div>
+        )}
       </Dialog>
     </div>
   );
