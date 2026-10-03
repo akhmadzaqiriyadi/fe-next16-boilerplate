@@ -12,6 +12,10 @@ import { Combobox } from "@/components/ui/combobox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DateRangePicker, type DateRange } from "@/components/ui/date-range-picker";
 import { TimePicker } from "@/components/ui/time-picker";
+import { Sheet } from "@/components/ui/sheet";
+import { Sidebar } from "@/components/ui/sidebar";
+import { Tabs } from "@/components/ui/tabs";
+import { Tooltip } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -50,6 +54,9 @@ import {
   Loader,
   Calendar,
   Clock,
+  Layers,
+  PanelRight,
+  Info,
 } from "lucide-react";
 
 export default function DesignSystemPage() {
@@ -67,6 +74,9 @@ export default function DesignSystemPage() {
     to: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
   const [selectedTime, setSelectedTime] = useState("14:30");
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("overview");
+  const [sidebarActiveId, setSidebarActiveId] = useState("dashboard");
   const [liveSearch, setLiveSearch] = useState("");
   const debouncedSearch = useDebounce(liveSearch, 400);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -569,7 +579,168 @@ export default function DesignSystemPage() {
             </TableBody>
           </Table>
         </section>
+
+        {/* 8. Overlays, Drawers & Navigation Primitives */}
+        <section className="gsap-fade-up space-y-6">
+          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <Layers className="h-5 w-5 text-emerald-500" />
+            <h2 className="text-xl font-bold tracking-tight">8. Overlays, Drawers & Navigation Primitives</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Sheet Drawer & Modal Triggers */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Slide-Over Sheet & Modal Dialog</CardTitle>
+                <CardDescription>
+                  Drawer samping (Sheet) dan Modal dengan Backdrop blur terpadu serta animasi masuk halus.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    variant="primary"
+                    onClick={() => setIsSheetOpen(true)}
+                    className="gap-2"
+                  >
+                    <PanelRight className="h-4 w-4" /> Buka Sheet Drawer (Kanan)
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsDialogOpen(true)}
+                    className="gap-2"
+                  >
+                    <Layers className="h-4 w-4" /> Buka Modal Dialog
+                  </Button>
+                </div>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  Kedua komponen menggunakan reusable <code className="font-mono text-zinc-700 dark:text-zinc-300">Backdrop</code> dengan <code className="font-mono text-zinc-700 dark:text-zinc-300">backdrop-blur-md</code>, body scroll lock otomatis, dan keyboard escape listener.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Segmented Tabs & Tooltips */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Segmented Tabs & Tooltip</CardTitle>
+                <CardDescription>
+                  Kontrol navigasi tab segmented dan micro-tooltip dengan sudut tajam non-pill.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <p className="text-xs text-zinc-500 mb-2 font-medium">Segmented Control:</p>
+                  <Tabs
+                    value={activeTab}
+                    onChange={setActiveTab}
+                    items={[
+                      { id: "overview", label: "Ringkasan", badge: "Live" },
+                      { id: "analytics", label: "Analitik" },
+                      { id: "logs", label: "Aktivitas", badge: 8 },
+                    ]}
+                  />
+                </div>
+
+                <div className="pt-2 flex items-center gap-2">
+                  <span className="text-xs text-zinc-500">Arahkan kursor:</span>
+                  <Tooltip content="Tooltip tajam rounded-[4px] zero-pill">
+                    <Button variant="secondary" size="xs" className="gap-1">
+                      <Info className="h-3 w-3 text-emerald-500" /> Hover Me
+                    </Button>
+                  </Tooltip>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Sidebar Navigation Preview */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Collapsible Navigation Sidebar</CardTitle>
+              <CardDescription>
+                Sidebar dashboard responsif dengan toggle ciutkan (expand/collapse 240px ↔ 68px), badge counter, dan profil user.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-96 rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden flex bg-zinc-50/50 dark:bg-zinc-950">
+                <Sidebar
+                  activeId={sidebarActiveId}
+                  onSelectId={(id) => {
+                    setSidebarActiveId(id);
+                    toast.info(`Navigasi ke: ${id}`);
+                  }}
+                />
+                <div className="flex-1 p-6 flex flex-col justify-center items-center text-center">
+                  <div className="h-10 w-10 rounded-md bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-300 mb-2">
+                    <Layers className="h-5 w-5" />
+                  </div>
+                  <h4 className="font-bold text-sm">Halaman Konten: {sidebarActiveId.toUpperCase()}</h4>
+                  <p className="text-xs text-zinc-500 max-w-sm mt-1">
+                    Coba klik tombol panah di kanan atas logo &quot;Forge POS&quot; untuk menguji ciutkan / lebarkan sidebar secara mulus.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
       </main>
+
+      {/* Interactive Slide-Over Sheet Drawer */}
+      <Sheet
+        isOpen={isSheetOpen}
+        onClose={() => setIsSheetOpen(false)}
+        title="Detail Transaksi Kasir"
+        description="Panel drawer samping kanan dengan transisi slide mulus dan backdrop blur."
+        size="md"
+      >
+        <div className="space-y-4">
+          <div className="rounded-md border border-zinc-200 dark:border-zinc-800 p-3 bg-zinc-50/50 dark:bg-zinc-900/40 space-y-2">
+            <div className="flex justify-between text-xs">
+              <span className="text-zinc-500">ID Transaksi</span>
+              <span className="font-mono font-semibold">TRX-2026-9912</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="text-zinc-500">Waktu Pembayaran</span>
+              <span className="font-mono">14:30:45 WIB</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="text-zinc-500">Metode</span>
+              <Badge variant="success">QRIS Dinamis</Badge>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <h4 className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider font-mono">
+              Item Belanja:
+            </h4>
+            <div className="space-y-1 text-xs">
+              <div className="flex justify-between py-1 border-b border-zinc-100 dark:border-zinc-800/60">
+                <span>Thermal Printer 80mm x 1</span>
+                <span className="font-mono font-semibold">Rp 850.000</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-zinc-100 dark:border-zinc-800/60">
+                <span>Barcode Scanner 2D x 1</span>
+                <span className="font-mono font-semibold">Rp 420.000</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-4 flex justify-end gap-2">
+            <Button variant="secondary" onClick={() => setIsSheetOpen(false)}>
+              Tutup Drawer
+            </Button>
+            <Button
+              variant="accent"
+              onClick={() => {
+                setIsSheetOpen(false);
+                toast.success("Struk kasir dikirim ke printer");
+              }}
+            >
+              Cetak Struk
+            </Button>
+          </div>
+        </div>
+      </Sheet>
 
       {/* Interactive Pure Modal Demo */}
       <Dialog
